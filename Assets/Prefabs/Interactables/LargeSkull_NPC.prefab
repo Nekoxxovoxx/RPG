@@ -1,0 +1,197 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &811439980542392280
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -2253911629886400664, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+      propertyPath: m_Name
+      value: LargeSkull_NPC
+      objectReference: {fileID: 0}
+    - target: {fileID: -2253911629886400664, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1160356261127867848, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 7ce8b9b94a767b3489440dcbfd07cc70, type: 2}
+    - target: {fileID: 3626916397498700004, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+      propertyPath: m_SortingLayer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3626916397498700004, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1812228757
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878350319992209165, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878350319992209165, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878350319992209165, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878350319992209165, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878350319992209165, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878350319992209165, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878350319992209165, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878350319992209165, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878350319992209165, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878350319992209165, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878350319992209165, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878350319992209165, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878350319992209165, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7878350319992209165, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1689230886234442912}
+    - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1098025185077521667}
+  m_SourcePrefab: {fileID: -8435245712485981826, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+--- !u!1 &7780723774688108720 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -2253911629886400664, guid: 5207a1d89582ae2428ee6305785d1b24, type: 3}
+  m_PrefabInstance: {fileID: 811439980542392280}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1689230886234442912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7780723774688108720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09f77336bc2784a4695cf9e9530ba6dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionPrompt: "\u6309 E \u4EA4\u4E92"
+  canInteract: 1
+  promptText: {fileID: 0}
+  revealRange: 10.5
+  hideRange: 12
+  entranceDuration: 0.45
+  disappearDuration: 0.7
+  reverseEntranceSpeedMultiplier: 1.55
+  revealConfirmSeconds: 0.05
+  hideConfirmSeconds: 0.25
+  entranceAnimation: death_reverse
+  idleAnimation: Idle/Move
+  disappearAnimation: death
+  startHidden: 1
+  npcName: "\u4F8D\u706B\u5DEB\u5973"
+  playerSpeakerName: "\u4F60"
+  enabledFunctions: -1
+  dialogueOptionText: "\u5BF9\u8BDD"
+  upgradeOptionText: "\u796D\u793C"
+  returnFireOptionText: "\u5F52\u706B"
+  flaskUpgradeOptionText: "\u51DD\u9732"
+  conversationLines: []
+  dialogueDisplaySeconds: 4
+  returnFireCompleteMessage: "\u613F\u60A8\u7684\u4F59\u70EC\u4E0D\u706D\uFF0C\u4F20\u706B\u8005\u5927\u4EBA\u3002"
+  useReturnFireFade: 1
+  returnFireFadeToBlackDuration: 0.65
+  returnFireBlackHoldDuration: 0.18
+  returnFireFadeFromBlackDuration: 0.75
+  pauseWorldDuringReturnFireFade: 1
+  onDialogue:
+    m_PersistentCalls:
+      m_Calls: []
+  onUpgrade:
+    m_PersistentCalls:
+      m_Calls: []
+  onReturnFire:
+    m_PersistentCalls:
+      m_Calls: []
+  onFlaskUpgrade:
+    m_PersistentCalls:
+      m_Calls: []
+  audioEvents: {fileID: 0}
+  appearCueName: NpcAppear
+  disappearCueName: NpcDisappear
+  appearClip: {fileID: 0}
+  disappearClip: {fileID: 0}
+  audioVolume: 1
+  audioSpatialBlend: 0
+--- !u!58 &1098025185077521667
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7780723774688108720}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 1.4}
+  serializedVersion: 2
+  m_Radius: 1.12

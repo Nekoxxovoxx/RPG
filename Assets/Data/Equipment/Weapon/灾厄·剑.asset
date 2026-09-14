@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 963137a6578303646b628a7f42181864, type: 3}
+  m_Name: "\u707E\u5384\xB7\u5251"
+  m_EditorClassIdentifier: 
+  itemType: 1
+  itemName: "\u707E\u5384\xB7\u5251"
+  itemicon: {fileID: -345716544, guid: a91abade5946b604ea6dcce594c7b27c, type: 3}
+  itemDescription: "\u81EA\u711A\u6BC1\u57CE\u90A6\u7684\u7070\u70EC\u4E2D\u53D6\u51FA\u7684\u5251\n\u5251\u810A\u6B8B\u7559\u7740\u65E0\u6CD5\u78E8\u5E73\u7684\u7126\u75D5\n\u5251\u8EAB\u88AB\u6076\u9B54\u4E4B\u773C\u9644\u7740\n\u636E\u8BF4\u6B64\u5251\u627F\u8F7D\u7740\u4EA1\u56FD\u8005\u6700\u540E\u7684\u8BC5\u5492\n\u80DC\u8005\u593A\u8D70\u4E86\u57CE\u6C60\uFF0C\u5374\u4E5F\u7EE7\u627F\u4E86\u5B83\u7684\u707E\u5384"
+  dropChance: 0
+  equipmentType: 0
+  itemCooldown: 0
+  itemEffects: []
+  specialEffectDescription: 
+  strength: 15
+  agility: 0
+  intelligence: 5
+  vitality: 0
+  damage: 0
+  critChance: 0
+  critPower: 0
+  health: 0
+  armor: 0
+  evasion: 0
+  magicResistance: 0
+  fireDamage: 15
+  iceDamage: 0
+  lightingDamage: 0
+  craftingMaterials: []

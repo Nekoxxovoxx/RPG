@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 963137a6578303646b628a7f42181864, type: 3}
+  m_Name: "\u707E\u5384\xB7\u94E0"
+  m_EditorClassIdentifier: 
+  itemType: 1
+  itemName: "\u707E\u5384\xB7\u94E0"
+  itemicon: {fileID: -1298923466, guid: 22b53bd617399d84d8088fcc26ed4a84, type: 3}
+  itemDescription: "\u8FD9\u526F\u94E0\u7532\u5E76\u975E\u4E3A\u4E86\u4FDD\u62A4\u7A7F\u6234\u8005\u3002\n\u5B83\u53EA\u662F\u8BA9\u707E\u5384\u6765\u4E34\u65F6\uFF0C\u80FD\u591A\u770B\u4F60\u6323\u624E\u4E00\u4F1A\u513F\u3002"
+  dropChance: 0
+  equipmentType: 1
+  itemCooldown: 5
+  itemEffects:
+  - {fileID: 11400000, guid: 3997bc4c68a39e649bd40ca4c4aa8ff2, type: 2}
+  specialEffectDescription: 
+  strength: 0
+  agility: 10
+  intelligence: 0
+  vitality: 0
+  damage: 0
+  critChance: 0
+  critPower: 0
+  health: 50
+  armor: 15
+  evasion: 0
+  magicResistance: 15
+  fireDamage: 0
+  iceDamage: 0
+  lightingDamage: 0
+  craftingMaterials:
+  - data: {fileID: 11400000, guid: ccb08175db08fb145b44513675f711a7, type: 2}
+    stackSize: 1
+  - data: {fileID: 11400000, guid: a79bdf365531f0e46bfb42186637d322, type: 2}
+    stackSize: 3
+  - data: {fileID: 11400000, guid: 21349a5b5c85b224fbf970c08bb68ac8, type: 2}
+    stackSize: 5

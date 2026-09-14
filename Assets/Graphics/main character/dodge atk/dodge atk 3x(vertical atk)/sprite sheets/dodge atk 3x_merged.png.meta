@@ -1,0 +1,928 @@
+fileFormatVersion: 2
+guid: ed9889fa1e1045b4497d4f7675a0f15a
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1614
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.80215937, y: 0.13441166}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8dc5f428249a5c44382dc3922ba84c78
+      internalID: 777894927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_1
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 1614
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.13}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c818af9845f02cb489402a10d8c7f113
+      internalID: 514750205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_2
+      rect:
+        serializedVersion: 2
+        x: 406
+        y: 1614
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.13}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96cf4e662e955b247a06a26ff5d5d409
+      internalID: 167080099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_3
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 1614
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.13}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1b3d440b348982468151f2f6daee94d
+      internalID: 1597421791
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_4
+      rect:
+        serializedVersion: 2
+        x: 812
+        y: 1614
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.13}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2bb519f6ae0b10342a522872011daf3a
+      internalID: -449120566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_5
+      rect:
+        serializedVersion: 2
+        x: 1015
+        y: 1614
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.13}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8875b182d6253e4ebb0073072462d93
+      internalID: -2078993750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1345
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.13}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13625e98395aa024a99dee93d54418d3
+      internalID: -1449012799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_7
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 1345
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.13}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a3fb7b1cc1354d4697c2f5e1dbf30e7
+      internalID: 1481921922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_8
+      rect:
+        serializedVersion: 2
+        x: 406
+        y: 1345
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.13}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9a7fe304e4d33d49a3339204b98d707
+      internalID: 1419698212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_9
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 1345
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.13}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35abe1bba1d66c74b9ae7e41faf05e86
+      internalID: -641484539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_10
+      rect:
+        serializedVersion: 2
+        x: 812
+        y: 1345
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.13}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aaa0855d65350814bbe22dc1dfdb339e
+      internalID: -1042141650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_11
+      rect:
+        serializedVersion: 2
+        x: 1015
+        y: 1345
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.13}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 724303a2a5043f14d9f1bbaa519eaaa3
+      internalID: -1808792091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1076
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88908219d887065478e6b2d293704ed7
+      internalID: -1312366377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_13
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 1076
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83a881f24facc1a4e8be59be528be657
+      internalID: 656387375
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_14
+      rect:
+        serializedVersion: 2
+        x: 406
+        y: 1076
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40bfb9dba02d46e47abecea43d7741c4
+      internalID: 1098375134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_15
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 1076
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48cf18221b9621644a757d27bc52c43b
+      internalID: 891598442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_16
+      rect:
+        serializedVersion: 2
+        x: 812
+        y: 1076
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 641c5af02099b95449b5937c6aba2d0f
+      internalID: 2073765710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_17
+      rect:
+        serializedVersion: 2
+        x: 1015
+        y: 1076
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.15}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4e671618bad5bb46aaead3ae132fe41
+      internalID: -608173599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 810
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93ad4698facda8747a8afafa98fefc94
+      internalID: 1367136680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_19
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 808
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c8d9bffe1bb5904f954adb493286964
+      internalID: -1154645290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_20
+      rect:
+        serializedVersion: 2
+        x: 406
+        y: 807
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe84bd739a7eb5e4a831779fd2adba71
+      internalID: -260763323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_21
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 807
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5048102087a7124cba5b117df098d56
+      internalID: 607646200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_22
+      rect:
+        serializedVersion: 2
+        x: 812
+        y: 807
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79c7ae257fd32654caa422a63f11bb88
+      internalID: 1469713779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_23
+      rect:
+        serializedVersion: 2
+        x: 1015
+        y: 807
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b1a0efd7679bca409e2d4bd8891ee64
+      internalID: 609256116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 538
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 382e2b2996cc1984495a00640edac240
+      internalID: -1379888614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_25
+      rect:
+        serializedVersion: 2
+        x: 202
+        y: 538
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.2346023}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: caf1f924542c153499276b5578ea40fa
+      internalID: 2068525067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_26
+      rect:
+        serializedVersion: 2
+        x: 406
+        y: 538
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.23752795}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 629a4e391f51c3f4289acd21e1e8382f
+      internalID: -1853603389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_27
+      rect:
+        serializedVersion: 2
+        x: 608
+        y: 537
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.23167674}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 80d8edc931b2c344b8abd6b00bfe1175
+      internalID: 1246648596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_28
+      rect:
+        serializedVersion: 2
+        x: 812
+        y: 538
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c563384d360d0c408b19b8ea1165fb5
+      internalID: -1420895988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_29
+      rect:
+        serializedVersion: 2
+        x: 1015
+        y: 538
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de692caf435515247b572b605ea92ef1
+      internalID: 1922191155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 269
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 17a1f4a9e784f284289c4c9965047356
+      internalID: -670618121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_31
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 270
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3e3268d91f3e8940b213602ea785185
+      internalID: -2062037239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_32
+      rect:
+        serializedVersion: 2
+        x: 406
+        y: 269
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11c81d135eeb5374a8ea63215c29284e
+      internalID: -592320913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_33
+      rect:
+        serializedVersion: 2
+        x: 609
+        y: 269
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24c568bb1c4e01e478c2b543d3f3c9d9
+      internalID: 1030723525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_34
+      rect:
+        serializedVersion: 2
+        x: 812
+        y: 269
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dad7b2e89c29f0b46af5d8aaea82b7cc
+      internalID: -1174087616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_35
+      rect:
+        serializedVersion: 2
+        x: 1015
+        y: 268
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5e879e0828df6a45aecd79fed25e1a1
+      internalID: 2010542536
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dodge atk 3x_merged_36
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 203
+        height: 269
+      alignment: 9
+      pivot: {x: 0.8, y: 0.23}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 901b53b187ac5784a91803cfac1e4846
+      internalID: 710823901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      dodge atk 3x_merged_0: 777894927
+      dodge atk 3x_merged_1: 514750205
+      dodge atk 3x_merged_10: -1042141650
+      dodge atk 3x_merged_11: -1808792091
+      dodge atk 3x_merged_12: -1312366377
+      dodge atk 3x_merged_13: 656387375
+      dodge atk 3x_merged_14: 1098375134
+      dodge atk 3x_merged_15: 891598442
+      dodge atk 3x_merged_16: 2073765710
+      dodge atk 3x_merged_17: -608173599
+      dodge atk 3x_merged_18: 1367136680
+      dodge atk 3x_merged_19: -1154645290
+      dodge atk 3x_merged_2: 167080099
+      dodge atk 3x_merged_20: -260763323
+      dodge atk 3x_merged_21: 607646200
+      dodge atk 3x_merged_22: 1469713779
+      dodge atk 3x_merged_23: 609256116
+      dodge atk 3x_merged_24: -1379888614
+      dodge atk 3x_merged_25: 2068525067
+      dodge atk 3x_merged_26: -1853603389
+      dodge atk 3x_merged_27: 1246648596
+      dodge atk 3x_merged_28: -1420895988
+      dodge atk 3x_merged_29: 1922191155
+      dodge atk 3x_merged_3: 1597421791
+      dodge atk 3x_merged_30: -670618121
+      dodge atk 3x_merged_31: -2062037239
+      dodge atk 3x_merged_32: -592320913
+      dodge atk 3x_merged_33: 1030723525
+      dodge atk 3x_merged_34: -1174087616
+      dodge atk 3x_merged_35: 2010542536
+      dodge atk 3x_merged_36: 710823901
+      dodge atk 3x_merged_4: -449120566
+      dodge atk 3x_merged_5: -2078993750
+      dodge atk 3x_merged_6: -1449012799
+      dodge atk 3x_merged_7: 1481921922
+      dodge atk 3x_merged_8: 1419698212
+      dodge atk 3x_merged_9: -641484539
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

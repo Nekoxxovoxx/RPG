@@ -1,0 +1,642 @@
+fileFormatVersion: 2
+guid: 466b43e92bb26f0428cc80e8ec2dc4ba
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: back dodge(fx included)_0
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 305
+        width: 51
+        height: 53
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 589d997d0ce16944d8f8244a8d956f48
+      internalID: 284112216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_1
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 305
+        width: 50
+        height: 52
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91eccc3ca14cde4498f8a9faed61348b
+      internalID: 1036535628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_2
+      rect:
+        serializedVersion: 2
+        x: 374
+        y: 305
+        width: 52
+        height: 50
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f92608f098ef4c4ab7aba9a0bbcd12a
+      internalID: -131541990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_3
+      rect:
+        serializedVersion: 2
+        x: 503
+        y: 313
+        width: 57
+        height: 43
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb37c53bce30b97439d9a6a2742555a9
+      internalID: -2075896816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_4
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 253
+        width: 55
+        height: 42
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00782e65189f439489a0552e6704eae9
+      internalID: 1909526375
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_5
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 247
+        width: 62
+        height: 48
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee418b6131a5acc4b9053718d3037a59
+      internalID: 803917231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_6
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 245
+        width: 64
+        height: 51
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63018a3ebd871c140b722f8106f6ce0a
+      internalID: -630625987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_7
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 244
+        width: 80
+        height: 59
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 271f163ea94bee3479101e2a3c4ed836
+      internalID: 265434520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_8
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 183
+        width: 82
+        height: 59
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 901d492c9b5bf6e4b99d77be724e1c8b
+      internalID: -1052479684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_9
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 183
+        width: 83
+        height: 59
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 07d47cc6b53305a46946e88ed267e03c
+      internalID: 1348788488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_10
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 183
+        width: 90
+        height: 61
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c878a6ae1ad89fd42af2efb0b430e420
+      internalID: -2096397900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_11
+      rect:
+        serializedVersion: 2
+        x: 453
+        y: 183
+        width: 114
+        height: 59
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 716ac9ca346aafd468d7c5ece908ca8e
+      internalID: 1524038504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_12
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 122
+        width: 119
+        height: 59
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e92288a775dc3a34eb10d2d7ca1f82ea
+      internalID: -402209301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_13
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 122
+        width: 114
+        height: 59
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad9947bc06855f44db3eb63a117c6913
+      internalID: 1030819738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_14
+      rect:
+        serializedVersion: 2
+        x: 305
+        y: 122
+        width: 120
+        height: 59
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da70ea3c43b830741bbff8c38c5a1104
+      internalID: -1888679296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_15
+      rect:
+        serializedVersion: 2
+        x: 427
+        y: 122
+        width: 132
+        height: 57
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5597d02d2e54d54aa8375ad3f4b4ef2
+      internalID: 123345701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 61
+        width: 133
+        height: 57
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2bbb32575a5b34549b9a6f6015c04846
+      internalID: -30205373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_17
+      rect:
+        serializedVersion: 2
+        x: 222
+        y: 61
+        width: 55
+        height: 43
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2fe870874bf1cec429770f5181a2dcb0
+      internalID: -1782944260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_18
+      rect:
+        serializedVersion: 2
+        x: 364
+        y: 61
+        width: 55
+        height: 43
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fc1e2a66307f794588c6c4c1451e2fa
+      internalID: 1064207496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_19
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 61
+        width: 55
+        height: 44
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96410c8a3ae78b247ae2392574d0aa82
+      internalID: 950404930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_20
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 0
+        width: 55
+        height: 44
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9475af3cfbfe106409305f53db763954
+      internalID: 2115575767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_21
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 0
+        width: 52
+        height: 48
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e719bc1c11301a84dbbd26c8840b4869
+      internalID: -732817418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_22
+      rect:
+        serializedVersion: 2
+        x: 368
+        y: 0
+        width: 50
+        height: 49
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 103dc3b5a1f60114e8bfe3800e02ebc4
+      internalID: -2065271551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: back dodge(fx included)_23
+      rect:
+        serializedVersion: 2
+        x: 513
+        y: 0
+        width: 43
+        height: 50
+      alignment: 8
+      pivot: {x: 1, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f913d53eda50b34cb2d939593f3bf58
+      internalID: 1904785072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      back dodge(fx included)_0: 284112216
+      back dodge(fx included)_1: 1036535628
+      back dodge(fx included)_10: -2096397900
+      back dodge(fx included)_11: 1524038504
+      back dodge(fx included)_12: -402209301
+      back dodge(fx included)_13: 1030819738
+      back dodge(fx included)_14: -1888679296
+      back dodge(fx included)_15: 123345701
+      back dodge(fx included)_16: -30205373
+      back dodge(fx included)_17: -1782944260
+      back dodge(fx included)_18: 1064207496
+      back dodge(fx included)_19: 950404930
+      back dodge(fx included)_2: -131541990
+      back dodge(fx included)_20: 2115575767
+      back dodge(fx included)_21: -732817418
+      back dodge(fx included)_22: -2065271551
+      back dodge(fx included)_23: 1904785072
+      back dodge(fx included)_3: -2075896816
+      back dodge(fx included)_4: 1909526375
+      back dodge(fx included)_5: 803917231
+      back dodge(fx included)_6: -630625987
+      back dodge(fx included)_7: 265434520
+      back dodge(fx included)_8: -1052479684
+      back dodge(fx included)_9: 1348788488
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

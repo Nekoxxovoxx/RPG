@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 963137a6578303646b628a7f42181864, type: 3}
+  m_Name: "\u9690\u58EB\u888D"
+  m_EditorClassIdentifier: 
+  itemType: 1
+  itemName: "\u9690\u58EB\u888D"
+  itemicon: {fileID: -192825714, guid: 31c5387a7456e664dbda19219c547fa2, type: 3}
+  itemDescription: "\u9690\u58EB\u5E76\u975E\u8FDC\u79BB\u4EBA\u4E16\u3002\n\u4ED6\u53EA\u662F\u6BD4\u65C1\u4EBA\u66F4\u65E9\u770B\u6E05\uFF0C\u4EBA\u4E16\u5E76\u4E0D\u503C\u5F97\u4E45\u7559\u3002"
+  dropChance: 0
+  equipmentType: 2
+  itemCooldown: 0
+  itemEffects: []
+  specialEffectDescription: 
+  strength: 0
+  agility: 2
+  intelligence: 10
+  vitality: 2
+  damage: 0
+  critChance: 0
+  critPower: 0
+  health: 0
+  armor: 0
+  evasion: 0
+  magicResistance: 0
+  fireDamage: 0
+  iceDamage: 0
+  lightingDamage: 0
+  craftingMaterials:
+  - data: {fileID: 11400000, guid: 83d8787f6e77baa4098b918d84c2486c, type: 2}
+    stackSize: 10
+  - data: {fileID: 11400000, guid: 1fd422bbf644b3d41a8c6eca2bd249a3, type: 2}
+    stackSize: 10
+  - data: {fileID: 11400000, guid: 88686cff25d078b46b6c2ac4ce046257, type: 2}
+    stackSize: 1

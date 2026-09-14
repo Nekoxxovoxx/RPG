@@ -1,0 +1,466 @@
+fileFormatVersion: 2
+guid: e3e3f3d87617ed24cb11165ef11e55e5
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: precise_dodge_combo_2x_00
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 411
+        width: 61
+        height: 56
+      alignment: 9
+      pivot: {x: 0.8723213, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd707b176db5ed30bcc7f72246ac095a
+      internalID: 52001000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: precise_dodge_combo_2x_01
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 411
+        width: 60
+        height: 58
+      alignment: 9
+      pivot: {x: 0.87019324, y: -0.0043319175}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 240ef98ad37cfe2a3036cf2d69f96650
+      internalID: 52001001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: precise_dodge_combo_2x_02
+      rect:
+        serializedVersion: 2
+        x: 268
+        y: 411
+        width: 60
+        height: 59
+      alignment: 9
+      pivot: {x: 0.87, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31e22e5e68dbe0b139091a3af4242003
+      internalID: 52001002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: precise_dodge_combo_2x_03
+      rect:
+        serializedVersion: 2
+        x: 377
+        y: 411
+        width: 64
+        height: 60
+      alignment: 9
+      pivot: {x: 0.87, y: 0.012561544}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e76c760d2800ecfea2ac371e46cf0038
+      internalID: 52001003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: precise_dodge_combo_2x_04
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 284
+        width: 56
+        height: 59
+      alignment: 9
+      pivot: {x: 0.87, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15fb911d4a629fa9017463efb1f445b1
+      internalID: 52001004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: precise_dodge_combo_2x_05
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 283
+        width: 59
+        height: 55
+      alignment: 9
+      pivot: {x: 0.87, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 312d162d2a03573b371e2492ed58d7fe
+      internalID: 52001005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: precise_dodge_combo_2x_06
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 284
+        width: 59
+        height: 50
+      alignment: 9
+      pivot: {x: 0.87, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae5ff8bf44fb1e80b65a79729f65457c
+      internalID: 52001006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: precise_dodge_combo_2x_07
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 256
+        width: 112
+        height: 128
+      alignment: 9
+      pivot: {x: 0.87, y: 0.20612288}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a08b6e720485450ee34fe20d62b328d6
+      internalID: 52001007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: precise_dodge_combo_2x_08
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 128
+        width: 112
+        height: 128
+      alignment: 9
+      pivot: {x: 1.1, y: 0.1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1440d135a4d2f16b17c36e77e2e833b
+      internalID: 52001008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: precise_dodge_combo_2x_09
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 128
+        width: 112
+        height: 128
+      alignment: 9
+      pivot: {x: 1.12, y: 0.08}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 294e66b2cbd7e1dc09ac27417d5a22d7
+      internalID: 52001009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: precise_dodge_combo_2x_10
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 128
+        width: 112
+        height: 128
+      alignment: 9
+      pivot: {x: 1.14, y: 0.06}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e81b4f5ee51b8d07959ac4bd85ff75cd
+      internalID: 52001010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: precise_dodge_combo_2x_11
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 128
+        width: 112
+        height: 128
+      alignment: 9
+      pivot: {x: 1.16, y: 0.04}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9beee859fd6080f25a29dd2af3f7830
+      internalID: 52001011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: precise_dodge_combo_2x_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1
+        width: 112
+        height: 127
+      alignment: 9
+      pivot: {x: 1.18, y: 0.01}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08c5e129d71bf50bb37d80d50070a77b
+      internalID: 52001012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: precise_dodge_combo_2x_13
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 0
+        width: 112
+        height: 128
+      alignment: 9
+      pivot: {x: 1.2, y: 0.008718783}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd7acfe2b40c4bfb7aba622a44e51c48
+      internalID: 52001013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: precise_dodge_combo_2x_14
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 112
+        height: 128
+      alignment: 9
+      pivot: {x: 1.2, y: 0.008}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d597987cf42ae3b0b3aedb882cb0984b
+      internalID: 52001014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: precise_dodge_combo_2x_15
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 0
+        width: 112
+        height: 128
+      alignment: 9
+      pivot: {x: 1.2, y: 0.008}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10f7653f3b49bc1f4f7a82f4283ff1f3
+      internalID: 52001015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      precise_dodge_combo_2x_00: 52001000
+      precise_dodge_combo_2x_01: 52001001
+      precise_dodge_combo_2x_02: 52001002
+      precise_dodge_combo_2x_03: 52001003
+      precise_dodge_combo_2x_04: 52001004
+      precise_dodge_combo_2x_05: 52001005
+      precise_dodge_combo_2x_06: 52001006
+      precise_dodge_combo_2x_07: 52001007
+      precise_dodge_combo_2x_08: 52001008
+      precise_dodge_combo_2x_09: 52001009
+      precise_dodge_combo_2x_10: 52001010
+      precise_dodge_combo_2x_11: 52001011
+      precise_dodge_combo_2x_12: 52001012
+      precise_dodge_combo_2x_13: 52001013
+      precise_dodge_combo_2x_14: 52001014
+      precise_dodge_combo_2x_15: 52001015
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
