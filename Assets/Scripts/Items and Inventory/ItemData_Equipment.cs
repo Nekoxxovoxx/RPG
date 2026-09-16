@@ -48,14 +48,34 @@ public class ItemData_Equipment : ItemData
 
     public void Effect(Transform _enemyPosition)
     {
-        foreach (var item in itemEffects)
+        if (itemEffects == null)
+            return;
+
+        bool targetIsEnemy = _enemyPosition != null && _enemyPosition.GetComponentInParent<EnemyStats>() != null;
+
+        void ExecuteEffects()
         {
-            item.ExecuteEffect(_enemyPosition);
+            foreach (var item in itemEffects)
+            {
+                if (item != null)
+                    item.ExecuteEffect(_enemyPosition);
+            }
         }
+
+        if (targetIsEnemy)
+            DamageAttribution.RunAsPlayerDamage(ExecuteEffects);
+        else
+            ExecuteEffects();
     }
+
     public void AddModifiers()
     {
-        PlayerStats playerStats = PlayerManager.instance.player.GetComponent<PlayerStats>();
+        PlayerStats playerStats = ResolvePlayerStats();
+
+        if (playerStats == null)
+            return;
+
+        playerStats.EnsureCoreStatObjects();
         playerStats.strength.AddModifier(strength);
         playerStats.agility.AddModifier(agility);
         playerStats.intelligence.AddModifier(intelligence);
@@ -73,11 +93,18 @@ public class ItemData_Equipment : ItemData
         playerStats.fireDamage.AddModifier(fireDamage);
         playerStats.iceDamage.AddModifier(iceDamage);
         playerStats.lightingDamage.AddModifier(lightingDamage);
+
+        ApplyEquipEffects(playerStats);
     }
 
     public void RemoveModifiers()
     {
-        PlayerStats playerStats = PlayerManager.instance.player.GetComponent<PlayerStats>();
+        PlayerStats playerStats = ResolvePlayerStats();
+
+        if (playerStats == null)
+            return;
+
+        playerStats.EnsureCoreStatObjects();
         playerStats.strength.RemoveModifier(strength);
         playerStats.agility.RemoveModifier(agility);
         playerStats.intelligence.RemoveModifier(intelligence);
@@ -95,6 +122,40 @@ public class ItemData_Equipment : ItemData
         playerStats.fireDamage.RemoveModifier(fireDamage);
         playerStats.iceDamage.RemoveModifier(iceDamage);
         playerStats.lightingDamage.RemoveModifier(lightingDamage);
+
+        RemoveEquipEffects(playerStats);
+    }
+
+    private void ApplyEquipEffects(PlayerStats playerStats)
+    {
+        if (playerStats == null || itemEffects == null)
+            return;
+
+        foreach (var item in itemEffects)
+        {
+            if (item != null)
+                item.OnEquip(this, playerStats);
+        }
+    }
+
+    private void RemoveEquipEffects(PlayerStats playerStats)
+    {
+        if (playerStats == null || itemEffects == null)
+            return;
+
+        foreach (var item in itemEffects)
+        {
+            if (item != null)
+                item.OnUnequip(this, playerStats);
+        }
+    }
+
+    private PlayerStats ResolvePlayerStats()
+    {
+        if (PlayerManager.instance != null && PlayerManager.instance.player != null)
+            return PlayerManager.instance.player.GetComponent<PlayerStats>();
+
+        return FindObjectOfType<PlayerStats>(true);
     }
 
     public override string GetDescription()

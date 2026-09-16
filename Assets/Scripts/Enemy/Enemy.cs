@@ -31,6 +31,9 @@ public class Enemy : Entity
 
     public EnemyStateMachine stateMachine { get; private set; }
     public string lastAnimBoolName { get; private set; }
+    private int timedFreezeCount;
+    private bool externalFreeze;
+    public bool IsFrozen => timedFreezeCount > 0 || externalFreeze;
 
     protected override void Awake()
     {
@@ -43,7 +46,9 @@ public class Enemy : Entity
     protected override void Update()
     {
         base.Update();
-        stateMachine.currentState.Update();
+        if (IsFrozen)
+            return;
+        stateMachine.currentState?.Update();
     }
     public virtual void AssignLastAnimName(string _animBoolName) => lastAnimBoolName = _animBoolName;
 
@@ -63,15 +68,22 @@ public class Enemy : Entity
     }
     public virtual void FreezeTime(bool _timeFrozen)
     {
-        if (_timeFrozen)
+        externalFreeze = _timeFrozen;
+        ApplyFreezeState();
+    }
+
+    private void ApplyFreezeState()
+    {
+        if (IsFrozen)
         {
             moveSpeed = 0;
-            anim.speed = 0;
+            if (anim != null) anim.speed = 0;
+            if (rb != null) rb.velocity = Vector2.zero;
         }
         else
         {
             moveSpeed = defaultMoveSpeed;
-            anim.speed = 1;
+            if (anim != null) anim.speed = 1;
         }
     }
 
@@ -79,11 +91,15 @@ public class Enemy : Entity
 
     protected virtual IEnumerator FreezeTimerCoroutine(float _seconds)
     {
-        FreezeTime(true);
+        if (_seconds <= 0f || (this is IGenericControlImmuneEnemy immune && immune.IsImmuneToGenericEnemyControl))
+            yield break;
+        timedFreezeCount++;
+        ApplyFreezeState();
 
         yield return new WaitForSeconds(_seconds);
 
-        FreezeTime(false);
+        timedFreezeCount = Mathf.Max(0, timedFreezeCount - 1);
+        ApplyFreezeState();
     }
 
 

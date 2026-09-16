@@ -19,8 +19,9 @@ MonoBehaviour:
   dropChance: 20
   equipmentType: 1
   itemCooldown: 0
-  itemEffects: []
-  specialEffectDescription: 
+  itemEffects:
+  - {fileID: 11400000, guid: 9d50285d4b52489ea35d4a791cd72764, type: 2}
+  specialEffectDescription: "\u751F\u547D\u503C\u964D\u4F4E\u523010%\u53CA\u4EE5\u4E0B\u65F6\u7ACB\u523B\u6062\u590D\u523050%\u7684\u8840\u91CF\uFF08\u76F4\u5230\u4E0B\u6B21\u5F52\u706B\u524D\u53EA\u80FD\u4F7F\u7528\u4E00\u6B21\uFF09"
   strength: 0
   agility: 0
   intelligence: 0

@@ -10,6 +10,7 @@ public class UI_BossHealthBar : MonoBehaviour
     [SerializeField] private bool hideWhenTargetDies = true;
 
     private CharacterStats targetStats;
+    private CharacterStats subscribedStats;
     private bool isSubscribed;
 
     private void Awake()
@@ -65,6 +66,7 @@ public class UI_BossHealthBar : MonoBehaviour
     {
         if (targetStats == stats)
         {
+            Subscribe();
             UpdateHealthUI();
             return;
         }
@@ -113,19 +115,29 @@ public class UI_BossHealthBar : MonoBehaviour
 
     private void Subscribe()
     {
-        if (isSubscribed || targetStats == null)
+        if (targetStats == null)
             return;
 
+        if (isSubscribed && subscribedStats == targetStats)
+            return;
+
+        if (isSubscribed)
+            Unsubscribe();
+
         targetStats.onHealthChanged += UpdateHealthUI;
+        subscribedStats = targetStats;
         isSubscribed = true;
     }
 
     private void Unsubscribe()
     {
-        if (!isSubscribed || targetStats == null)
+        if (!isSubscribed)
             return;
 
-        targetStats.onHealthChanged -= UpdateHealthUI;
+        if (subscribedStats != null)
+            subscribedStats.onHealthChanged -= UpdateHealthUI;
+
+        subscribedStats = null;
         isSubscribed = false;
     }
 

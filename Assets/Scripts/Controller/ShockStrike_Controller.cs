@@ -5,6 +5,7 @@ public class ShockStrike_Controller : MonoBehaviour
     [SerializeField] private CharacterStats targetStats;
     [SerializeField] private float speed;
     private int damage;
+    private bool playerCaused;
 
     private Animator anim;
     private bool triggered;
@@ -12,10 +13,11 @@ public class ShockStrike_Controller : MonoBehaviour
     {
         anim = GetComponentInChildren<Animator>();
     }
-    public void Setup(int _damage, CharacterStats _targetStats)
+    public void Setup(int _damage, CharacterStats _targetStats, bool _playerCaused = false)
     {
         damage = _damage;
         targetStats = _targetStats;
+        playerCaused = _playerCaused;
     }
 
     void Update()
@@ -45,7 +47,12 @@ public class ShockStrike_Controller : MonoBehaviour
     private void DamageAndSelfDestory()
     {
         targetStats.ApplyShock(true);
-        targetStats.TakeDamage(damage);
+
+        if (playerCaused)
+            DamageAttribution.RunAsPlayerDamage(() => targetStats.TakeDamage(damage));
+        else
+            targetStats.TakeDamage(damage);
+
         Destroy(gameObject, 0.4f);
     }
 }

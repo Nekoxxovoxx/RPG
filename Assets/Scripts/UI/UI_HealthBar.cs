@@ -1,4 +1,4 @@
-    using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class UI_HealthBar : MonoBehaviour
@@ -9,30 +9,65 @@ public class UI_HealthBar : MonoBehaviour
     private Slider slider;
     private CanvasGroup canvasGroup;
     private bool isPlayerHealthBar;
+    private bool initialized;
+    private bool subscribedToEntity;
+    private bool subscribedToStats;
+    private bool subscribedToSettings;
+
+    private void OnEnable()
+    {
+        Initialize();
+        Subscribe();
+        UpdateHealthUI();
+        ApplyVisibilitySetting();
+    }
 
     private void Start()
     {
+        Initialize();
+        Subscribe();
+        UpdateHealthUI();
+        ApplyVisibilitySetting();
+    }
+
+    private void Initialize()
+    {
+        if (initialized)
+            return;
+
         myTransform = GetComponent<RectTransform>();
         entity = GetComponentInParent<Entity>();
         slider = GetComponentInChildren<Slider>();
         myStats = GetComponentInParent<CharacterStats>();
         canvasGroup = GetComponent<CanvasGroup>();
-        ConfigureReadOnlySlider();
 
         if (canvasGroup == null)
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
 
         isPlayerHealthBar = myStats is PlayerStats || GetComponentInParent<Player>() != null;
+        ConfigureReadOnlySlider();
+        initialized = true;
+    }
 
-        if (entity != null)
+    private void Subscribe()
+    {
+        if (entity != null && !subscribedToEntity)
+        {
             entity.onFilpped += FlipUI;
+            subscribedToEntity = true;
+        }
 
-        if (myStats != null)
+        if (myStats != null && !subscribedToStats)
+        {
             myStats.onHealthChanged += UpdateHealthUI;
+            subscribedToStats = true;
+        }
 
-        HealthBarDisplaySettings.OnSettingsChanged += ApplyVisibilitySetting;
-        UpdateHealthUI();
-        ApplyVisibilitySetting();
+        if (!subscribedToSettings)
+        {
+            HealthBarDisplaySettings.OnSettingsChanged += ApplyVisibilitySetting;
+            subscribedToSettings = true;
+        }
     }
 
     private void UpdateHealthUI()
@@ -45,16 +80,36 @@ public class UI_HealthBar : MonoBehaviour
         slider.SetValueWithoutNotify(Mathf.Clamp(myStats.currentHealth, 0, maxHealth));
     }
 
-    private void FlipUI() => myTransform.Rotate(0, 180, 0);
+    private void FlipUI()
+    {
+        if (myTransform != null)
+            myTransform.Rotate(0, 180, 0);
+    }
+
     private void OnDisable()
     {
-        if (entity != null)
+        Unsubscribe();
+    }
+
+    private void Unsubscribe()
+    {
+        if (entity != null && subscribedToEntity)
+        {
             entity.onFilpped -= FlipUI;
+            subscribedToEntity = false;
+        }
 
-        if (myStats != null)
+        if (myStats != null && subscribedToStats)
+        {
             myStats.onHealthChanged -= UpdateHealthUI;
+            subscribedToStats = false;
+        }
 
-        HealthBarDisplaySettings.OnSettingsChanged -= ApplyVisibilitySetting;
+        if (subscribedToSettings)
+        {
+            HealthBarDisplaySettings.OnSettingsChanged -= ApplyVisibilitySetting;
+            subscribedToSettings = false;
+        }
     }
 
     private void ApplyVisibilitySetting()

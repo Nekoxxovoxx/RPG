@@ -2,8 +2,13 @@
 
 public class EnemyStats : CharacterStats
 {
+    public static event System.Action<EnemyStats> AnyEnemyDied;
+    public static event System.Action<EnemyStats> AnyEnemyKilledByPlayer;
+
     private Enemy enemy;
     private EnemyEmberDrop emberDropSystem;
+    private bool lastDamageWasPlayerCaused;
+    private bool statusDamageSourceIsPlayer;
 
     [Header("敌人等级与等阶")]
     [SerializeField] private EnemyKind kind = EnemyKind.骷髅敌人;
@@ -18,9 +23,11 @@ public class EnemyStats : CharacterStats
     public bool UseManagerSettings => useManagerSettings;
     public int Level => Mathf.Max(1, level);
     public EnemyRank Rank => rank;
+    public bool WasKilledByPlayer { get; private set; }
 
     protected override void Start()
     {
+        EnsureCoreStatObjects();
         ApplyManagedLevelSettings();
         ApplyLevelModifiers();
 
@@ -85,16 +92,51 @@ public class EnemyStats : CharacterStats
 
     public override void TakeDamage(int _damage)
     {
+        if (_damage > 0)
+            lastDamageWasPlayerCaused = DamageAttribution.IsPlayerDamage;
+
         base.TakeDamage(_damage);
+    }
+
+    protected override void DecreaseHealthByStatusDamage(int _damage)
+    {
+        if (_damage > 0)
+            lastDamageWasPlayerCaused = statusDamageSourceIsPlayer || DamageAttribution.IsPlayerDamage;
+
+        base.DecreaseHealthByStatusDamage(_damage);
+    }
+
+    public void MarkPlayerDamageSource()
+    {
+        lastDamageWasPlayerCaused = true;
+    }
+
+    public void MarkPlayerStatusDamageSource()
+    {
+        statusDamageSourceIsPlayer = true;
+    }
+
+    public void SetStatusDamageSource(bool causedByPlayer)
+    {
+        statusDamageSourceIsPlayer = causedByPlayer;
     }
 
     protected override void Die()
     {
+        if (isDead)
+            return;
+
+        WasKilledByPlayer = lastDamageWasPlayerCaused;
+
         base.Die();
 
         enemy?.Die();
 
         EnemyDropManager.GetOrCreate().DropForEnemy(this);
         emberDropSystem?.DropEmbers(this);
+        AnyEnemyDied?.Invoke(this);
+
+        if (WasKilledByPlayer)
+            AnyEnemyKilledByPlayer?.Invoke(this);
     }
 }

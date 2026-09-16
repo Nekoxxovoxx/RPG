@@ -13,7 +13,7 @@ public class Stat
 
     public int GetValue()
     {
-        int finalValue = baseValue;
+        long finalValue = baseValue;
 
         if (modifiers == null)
             modifiers = new List<int>();
@@ -21,7 +21,7 @@ public class Stat
         foreach (int modifier in modifiers)
             finalValue += modifier;
 
-        return finalValue;
+        return (int)System.Math.Max(int.MinValue, System.Math.Min(int.MaxValue, finalValue));
     }
 
     public void SetDefaultValue(int _value)

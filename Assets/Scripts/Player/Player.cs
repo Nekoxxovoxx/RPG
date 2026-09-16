@@ -560,11 +560,14 @@ public class Player : Entity
         if (stats == null || stats.isDead)
             return false;
 
+        if (damage <= 0)
+            return false;
+
         if (Time.time < lastHazardContactTime + contactCooldown)
             return false;
 
         lastHazardContactTime = Time.time;
-        stats.TakeDamage(Mathf.Max(0, damage));
+        stats.TakeDamage(damage);
 
         if (stats == null || stats.isDead)
             return true;

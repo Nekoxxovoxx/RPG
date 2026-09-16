@@ -16,6 +16,46 @@
         [SerializeField] private Color[] igniteColor;
         [SerializeField] private Color[] chillColor;
         [SerializeField] private Color[] shockColor;
+        [SerializeField] private Color[] freezeColor =
+        {
+            new Color(0.3f, 0.85f, 1f, 1f),
+            Color.white
+        };
+        [SerializeField, Min(0.02f)] private float freezeBlinkInterval = 0.18f;
+
+        private Coroutine freezeColorCoroutine;
+        private float igniteVisualUntil;
+
+        public void ResetStatusFx()
+        {
+            CancelInvoke();
+            StopAllCoroutines();
+            flashCoroutine = freezeColorCoroutine = null;
+            igniteVisualUntil = 0f;
+            CacheRenderer();
+            if (sr != null)
+            {
+                sr.color = originalColor;
+                if (originalMat != null)
+                    sr.material = originalMat;
+            }
+        }
+
+        private void OnDisable() => ResetStatusFx();
+
+        private void LateUpdate()
+        {
+            if (sr == null)
+                return;
+            if (freezeColorCoroutine != null)
+                sr.color = GetFreezeColor(0, new Color(0.3f, 0.85f, 1f, 1f));
+            else if (Time.time < igniteVisualUntil)
+            {
+                sr.color = Color.red;
+                if (originalMat != null)
+                    sr.material = originalMat;
+            }
+        }
 
         private void Awake()
         {
@@ -96,10 +136,12 @@
         }
         public void IgniteFxFor(float _seconds)
         {
-            if (!CanRunColorFx(igniteColor))
+            CacheRenderer();
+            if (sr == null || _seconds <= 0f)
                 return;
 
-            InvokeRepeating("IgniteColorFx", 0, 0.3f);
+            igniteVisualUntil = Time.time + _seconds;
+            sr.color = Color.red;
             Invoke("CancelColorChange", _seconds);
         }
 
@@ -119,6 +161,19 @@
 
             InvokeRepeating("ShockColorFx", 0, 0.3f);
             Invoke("CancelColorChange", _seconds);
+        }
+
+        public void FreezeFxFor(float _seconds)
+        {
+            CacheRenderer();
+
+            if (sr == null || _seconds <= 0f)
+                return;
+
+            if (freezeColorCoroutine != null)
+                StopCoroutine(freezeColorCoroutine);
+
+            freezeColorCoroutine = StartCoroutine(FreezeColorRoutine(_seconds));
         }
 
         private void IgniteColorFx()
@@ -166,6 +221,37 @@
             }
 
             return true;
+        }
+
+        private IEnumerator FreezeColorRoutine(float seconds)
+        {
+            float timer = seconds;
+            bool usePrimary = true;
+            Color primary = GetFreezeColor(0, new Color(0.3f, 0.85f, 1f, 1f));
+            Color secondary = GetFreezeColor(1, Color.white);
+
+            while (timer > 0f && sr != null)
+            {
+                sr.color = usePrimary ? primary : secondary;
+                usePrimary = !usePrimary;
+
+                float wait = Mathf.Min(Mathf.Max(0.02f, freezeBlinkInterval), timer);
+                timer -= wait;
+                yield return new WaitForSeconds(wait);
+            }
+
+            if (sr != null)
+                sr.color = originalColor;
+
+            freezeColorCoroutine = null;
+        }
+
+        private Color GetFreezeColor(int index, Color fallback)
+        {
+            if (freezeColor == null || index < 0 || index >= freezeColor.Length)
+                return fallback;
+
+            return freezeColor[index];
         }
 
     }

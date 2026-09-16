@@ -220,7 +220,7 @@ public class SunSkillEffect : MonoBehaviour
             return;
 
         int finalDamage = Mathf.Max(1, Mathf.RoundToInt(damagePerTick * damageMultiplier));
-        affectedEnemy.Stats.TakeDamage(finalDamage);
+        DamageAttribution.RunAsPlayerDamage(() => affectedEnemy.Stats.TakeDamage(finalDamage));
         affectedEnemy.DamageTimer = damageInterval;
     }
 

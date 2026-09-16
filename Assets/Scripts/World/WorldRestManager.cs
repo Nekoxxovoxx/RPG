@@ -41,6 +41,8 @@ public class WorldRestManager : MonoBehaviour
     }
 
     public static WorldRestManager instance;
+    public static event System.Action<Player> PlayerReturnedToRest;
+    public static int RestVersion { get; private set; }
 
     private static bool returnToLastRestAfterSceneLoad;
     private static bool continueFromAutoSaveAfterSceneLoad;
@@ -226,7 +228,7 @@ public class WorldRestManager : MonoBehaviour
         RecordInitialPlayerSpawn(player);
 
         if (refillPlayerHealth && player != null && player.stats != null)
-            player.stats.IncreaseHealthBy(player.stats.GetMaxHealthValue());
+            player.stats.ReviveToFullHealth();
 
         if (refillFlasks)
             PlayerFlaskSystem.GetOrCreate().RefillMainFlask();
@@ -236,6 +238,8 @@ public class WorldRestManager : MonoBehaviour
 
         SavePlayerPosition(player);
         SaveAutoSnapshot(player);
+        RestVersion++;
+        PlayerReturnedToRest?.Invoke(player);
     }
 
     public bool ReturnPlayerToLastRest(Player player)
@@ -259,6 +263,8 @@ public class WorldRestManager : MonoBehaviour
 
         SavePlayerPosition(player);
         SaveAutoSnapshot(player);
+        RestVersion++;
+        PlayerReturnedToRest?.Invoke(player);
         return true;
     }
 
@@ -401,7 +407,10 @@ public class WorldRestManager : MonoBehaviour
         PlayerPrefs.SetFloat(LastSavePositionZKey, position.z);
 
         if (player.stats != null)
-            PlayerPrefs.SetInt(LastSaveHealthKey, player.stats.currentHealth);
+        {
+            int maxHealth = Mathf.Max(1, player.stats.GetMaxHealthValue());
+            PlayerPrefs.SetInt(LastSaveHealthKey, Mathf.Clamp(player.stats.currentHealth, 1, maxHealth));
+        }
 
         PlayerPrefs.Save();
     }
@@ -409,6 +418,9 @@ public class WorldRestManager : MonoBehaviour
     private void SaveAutoSnapshot(Player player)
     {
         if (player == null)
+            return;
+
+        if (player.stats != null && (player.stats.isDead || player.stats.currentHealth <= 0))
             return;
 
         MarkGameStarted();
@@ -420,7 +432,10 @@ public class WorldRestManager : MonoBehaviour
         PlayerPrefs.SetFloat(AutoSavePositionZKey, position.z);
 
         if (player.stats != null)
-            PlayerPrefs.SetInt(AutoSaveHealthKey, Mathf.Max(1, player.stats.currentHealth));
+        {
+            int maxHealth = Mathf.Max(1, player.stats.GetMaxHealthValue());
+            PlayerPrefs.SetInt(AutoSaveHealthKey, Mathf.Clamp(player.stats.currentHealth, 1, maxHealth));
+        }
 
         PlayerFlaskSystem flaskSystem = PlayerFlaskSystem.instance;
 

@@ -40,6 +40,7 @@ public class PlayerStats : CharacterStats
 
     private void Awake()
     {
+        EnsureCoreStatObjects();
         CacheInitialPrimaryStats();
         LoadLevelProgress();
     }
@@ -178,6 +179,8 @@ public class PlayerStats : CharacterStats
 
     public override void TakeDamage(int _damage)
     {
+        if (isDead || _damage <= 0)
+            return;
         base.TakeDamage(_damage);
 
         if (player == null)
@@ -189,7 +192,42 @@ public class PlayerStats : CharacterStats
 
     protected override void Die()
     {
+        if (isDead)
+            return;
+        MoonShadowLastHomelandRuntimeEffect moonShadowEffect = GetComponent<MoonShadowLastHomelandRuntimeEffect>();
+
+        if (moonShadowEffect != null && moonShadowEffect.TryPreventDeath())
+            return;
+
         base.Die();
+
+        if (player == null)
+            player = GetComponent<Player>();
+
+        player?.Die();
+        OnPlayerDeath?.Invoke();
+    }
+
+    public void TakeBlazingSunDrainDamage(int damage)
+    {
+        if (damage <= 0 || isDead)
+            return;
+
+        currentHealth = Mathf.Max(0, currentHealth - damage);
+        onHealthChanged?.Invoke();
+
+        if (currentHealth <= 0 && !isDead)
+            Die();
+    }
+
+    public void ForceMoonShadowDelayedDeath(MoonShadowLastHomelandRuntimeEffect source)
+    {
+        if (source == null || source != GetComponent<MoonShadowLastHomelandRuntimeEffect>() || isDead)
+            return;
+
+        currentHealth = 0;
+        base.Die();
+        onHealthChanged?.Invoke();
 
         if (player == null)
             player = GetComponent<Player>();
@@ -200,6 +238,8 @@ public class PlayerStats : CharacterStats
 
     protected override void DecreaseHealthBy(int _damage)
     {
+        if (isDead || _damage <= 0)
+            return;
         base.DecreaseHealthBy(_damage);
 
         if (Inventory.instance == null)
@@ -207,7 +247,24 @@ public class PlayerStats : CharacterStats
 
         ItemData_Equipment currentArmor = Inventory.instance.GetEquipment(EquipmentType.Armor);
 
-        if (currentArmor != null)
+        if (player == null)
+            player = GetComponent<Player>();
+
+        if (currentArmor != null && player != null)
             currentArmor.Effect(player.transform);
+    }
+
+    public override void IncreaseHealthBy(int amount)
+    {
+        MoonShadowLastHomelandRuntimeEffect effect = GetComponent<MoonShadowLastHomelandRuntimeEffect>();
+        if (effect != null && effect.IsDefyingDeath)
+            return;
+        base.IncreaseHealthBy(amount);
+    }
+
+    public override void ReviveWithHealth(int health)
+    {
+        GetComponent<MoonShadowLastHomelandRuntimeEffect>()?.CancelDeathWindow();
+        base.ReviveWithHealth(health);
     }
 }

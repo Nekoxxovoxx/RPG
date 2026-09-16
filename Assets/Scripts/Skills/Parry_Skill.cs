@@ -104,6 +104,10 @@ public class Parry_Skill : Skill
             return;
 
         int damage = player.stats.damage.GetValue() + player.stats.strength.GetValue() + bonusParryDamage;
-        targetStats.TakeDamage(Mathf.Max(1, damage));
+
+        if (damage <= 0)
+            return;
+
+        DamageAttribution.RunAsPlayerDamage(() => targetStats.TakeDamage(damage));
     }
 }
