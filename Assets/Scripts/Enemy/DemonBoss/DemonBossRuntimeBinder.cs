@@ -7,6 +7,7 @@ public static class DemonBossRuntimeBinder
     private static void BindCurrentScene()
     {
         BindDemonBossInScene();
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -71,6 +72,24 @@ public static class DemonBossRuntimeBinder
 
         DemonBossDefeatCollapseDirector collapseDirector =
             sceneAudio.GetComponent<DemonBossDefeatCollapseDirector>();
+
+        if (collapseDirector == null)
+        {
+            DemonBossDefeatCollapseDirector[] existingDirectors =
+                Object.FindObjectsOfType<DemonBossDefeatCollapseDirector>(true);
+
+            if (existingDirectors != null)
+            {
+                for (int i = 0; i < existingDirectors.Length; i++)
+                {
+                    if (existingDirectors[i] != null && existingDirectors[i].gameObject.scene.IsValid())
+                    {
+                        collapseDirector = existingDirectors[i];
+                        break;
+                    }
+                }
+            }
+        }
 
         if (collapseDirector == null)
             collapseDirector = sceneAudio.AddComponent<DemonBossDefeatCollapseDirector>();

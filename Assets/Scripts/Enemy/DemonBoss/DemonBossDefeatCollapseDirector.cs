@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [DisallowMultipleComponent]
 public class DemonBossDefeatCollapseDirector : MonoBehaviour, IInteractable
 {
+    private static readonly Dictionary<int, DemonBossDefeatCollapseDirector> primaryDirectorsByBossId =
+        new Dictionary<int, DemonBossDefeatCollapseDirector>();
+
     [Header("Boss")]
     [SerializeField] private Enemy_DemonBoss demonBoss;
     [SerializeField] private BossPhaseTransitionDirector cameraDirector;
@@ -14,7 +18,8 @@ public class DemonBossDefeatCollapseDirector : MonoBehaviour, IInteractable
     [SerializeField] private Vector2 maidenSpawnOffset = new Vector2(1.4f, 0f);
 
     [Header("Collapse Timing")]
-    [SerializeField, Min(0f)] private float delayAfterBossDisappear = 5f;
+    [FormerlySerializedAs("delayAfterBossDisappear")]
+    [SerializeField, Min(0f)] private float lootPickupDuration = 5f;
     [SerializeField, Min(0f)] private float shakeBeforeMaidenAppearDuration = 3f;
 
     [Header("Camera Shake")]
@@ -59,6 +64,11 @@ public class DemonBossDefeatCollapseDirector : MonoBehaviour, IInteractable
     private bool sequenceStarted;
     private bool earthquakeBgmStarted;
     private LargeSkullNpcInteractable maidenInteractable;
+    private bool registeredAsPrimary;
+    private int registeredBossId;
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetPrimaryDirectors() => primaryDirectorsByBossId.Clear();
 
     public string InteractionPrompt => teleportPrompt;
     public Transform InteractionTransform => ResolvePromptAnchor();
@@ -71,15 +81,19 @@ public class DemonBossDefeatCollapseDirector : MonoBehaviour, IInteractable
     private void OnEnable()
     {
         ResolveReferences();
+        RegisterAsPrimaryForBoss();
         SubscribeToBoss();
-        Enemy_DemonBoss.AnyDeathStarted -= HandleDemonBossDeathStarted;
-        Enemy_DemonBoss.AnyDeathStarted += HandleDemonBossDeathStarted;
     }
 
     private void OnDisable()
     {
-        Enemy_DemonBoss.AnyDeathStarted -= HandleDemonBossDeathStarted;
+        if (collapseRoutine != null)
+        {
+            StopCoroutine(collapseRoutine);
+            collapseRoutine = null;
+        }
         UnsubscribeFromBoss();
+        UnregisterPrimaryDirector();
         HideTeleportPrompt();
         StopCollapseShake();
         StopEarthquakeBgm();
@@ -112,6 +126,7 @@ public class DemonBossDefeatCollapseDirector : MonoBehaviour, IInteractable
 
         cameraDirector = persistentDirector;
         ResolveReferences();
+        RegisterAsPrimaryForBoss();
         SubscribeToBoss();
     }
 
@@ -158,6 +173,12 @@ public class DemonBossDefeatCollapseDirector : MonoBehaviour, IInteractable
         if (demonBoss == null)
             return;
 
+        if (!registeredAsPrimary)
+            RegisterAsPrimaryForBoss();
+
+        if (!IsPrimaryForBoss(demonBoss))
+            return;
+
         demonBoss.OnDeathStarted -= HandleDemonBossDeathStarted;
         demonBoss.OnDeathStarted += HandleDemonBossDeathStarted;
     }
@@ -172,6 +193,19 @@ public class DemonBossDefeatCollapseDirector : MonoBehaviour, IInteractable
 
     private void HandleDemonBossDeathStarted(Enemy_DemonBoss defeatedBoss)
     {
+        if (defeatedBoss == null)
+            return;
+
+        if (demonBoss == null)
+        {
+            demonBoss = defeatedBoss;
+            RegisterAsPrimaryForBoss();
+            SubscribeToBoss();
+        }
+
+        if (defeatedBoss != demonBoss || !IsPrimaryForBoss(defeatedBoss))
+            return;
+
         if (sequenceStarted)
             return;
 
@@ -181,14 +215,11 @@ public class DemonBossDefeatCollapseDirector : MonoBehaviour, IInteractable
 
     private IEnumerator CollapseRoutine(Enemy_DemonBoss defeatedBoss)
     {
+        // Count playable time so pausing does not consume the loot pickup window.
+        if (lootPickupDuration > 0f)
+            yield return new WaitForSeconds(lootPickupDuration);
+
         LockPlayer();
-
-        float deathVisualDelay = defeatedBoss != null ? defeatedBoss.DestroyDelayAfterDeath : 0f;
-        float totalDelay = Mathf.Max(0f, deathVisualDelay) + Mathf.Max(0f, delayAfterBossDisappear);
-
-        if (totalDelay > 0f)
-            yield return new WaitForSecondsRealtime(totalDelay);
-
         StartEarthquakeBgm();
         StartCollapseShake();
 
@@ -208,7 +239,8 @@ public class DemonBossDefeatCollapseDirector : MonoBehaviour, IInteractable
             return;
 
         lockedPlayer = ResolvePlayer();
-        lockedPlayer?.BeginCutsceneControlLock();
+        if (lockedPlayer != null)
+            lockedPlayer.BeginCutsceneControlLock();
     }
 
     private void UnlockPlayer()
@@ -263,13 +295,15 @@ public class DemonBossDefeatCollapseDirector : MonoBehaviour, IInteractable
     {
         cameraDirector = ResolvePersistentCameraDirector(cameraDirector, true);
 
-        cameraDirector?.StartCameraShake(shakeAmplitude, shakeFrequency);
+        if (cameraDirector != null)
+            cameraDirector.StartCameraShake(shakeAmplitude, shakeFrequency);
     }
 
     private void StopCollapseShake()
     {
         cameraDirector = ResolvePersistentCameraDirector(cameraDirector, false);
-        cameraDirector?.StopCameraShake();
+        if (cameraDirector != null)
+            cameraDirector.StopCameraShake();
     }
 
     private BossPhaseTransitionDirector ResolvePersistentCameraDirector(BossPhaseTransitionDirector suggestedDirector, bool allowCreate = true)
@@ -299,7 +333,7 @@ public class DemonBossDefeatCollapseDirector : MonoBehaviour, IInteractable
         if (demonBoss == null)
             return true;
 
-        return director.gameObject != demonBoss.gameObject;
+        return !director.transform.IsChildOf(demonBoss.transform);
     }
 
     private IEnumerator ShowMaidenNearPlayer()
@@ -318,6 +352,8 @@ public class DemonBossDefeatCollapseDirector : MonoBehaviour, IInteractable
 
         if (maidenObject == null)
             maidenObject = new GameObject("PostDefeatMaidenAnchor");
+
+        HideOtherMaidenObjects(maidenObject);
 
         maidenObject.SetActive(true);
         maidenObject.transform.position = player.transform.position + new Vector3(maidenSpawnOffset.x, maidenSpawnOffset.y, 0f);
@@ -369,6 +405,37 @@ public class DemonBossDefeatCollapseDirector : MonoBehaviour, IInteractable
         maidenObject.name = maidenPrefab.name;
         maidenAnimator = maidenObject.GetComponentInChildren<Animator>(true);
         maidenInteractable = maidenObject.GetComponentInChildren<LargeSkullNpcInteractable>(true);
+    }
+
+    private void HideOtherMaidenObjects(GameObject objectToKeep)
+    {
+        LargeSkullNpcInteractable[] candidates = Resources.FindObjectsOfTypeAll<LargeSkullNpcInteractable>();
+
+        if (candidates == null)
+            return;
+
+        HashSet<GameObject> hiddenObjects = new HashSet<GameObject>();
+
+        for (int i = 0; i < candidates.Length; i++)
+        {
+            LargeSkullNpcInteractable candidate = candidates[i];
+
+            if (candidate == null || !candidate.gameObject.scene.IsValid())
+                continue;
+
+            GameObject candidateObject = candidate.gameObject;
+
+            if (objectToKeep != null &&
+                (candidateObject == objectToKeep || candidateObject.transform.IsChildOf(objectToKeep.transform)))
+            {
+                continue;
+            }
+
+            if (!hiddenObjects.Add(candidateObject))
+                continue;
+
+            candidateObject.SetActive(false);
+        }
     }
 
     private IEnumerator PlayPostDefeatDialogue()
@@ -425,12 +492,16 @@ public class DemonBossDefeatCollapseDirector : MonoBehaviour, IInteractable
         if (!waitingForTeleportInput)
             return;
 
+        if (string.IsNullOrWhiteSpace(endSceneName) ||
+            !Application.CanStreamedLevelBeLoaded(endSceneName))
+        {
+            Debug.LogError("Collapse destination is not enabled in Build Settings: " + endSceneName, this);
+            return;
+        }
+
         HideTeleportPrompt();
         StopCollapseShake();
         StopEarthquakeBgm();
-
-        if (string.IsNullOrWhiteSpace(endSceneName))
-            return;
 
         UI_ScreenFadeTransition.Instance.LoadSceneWithFade(
             endSceneName,
@@ -681,6 +752,121 @@ public class DemonBossDefeatCollapseDirector : MonoBehaviour, IInteractable
                                  target.name.StartsWith(maidenPrefab.name, System.StringComparison.Ordinal);
 
         return matchesNameToken || matchesMaidenName || matchesPrefabName;
+    }
+
+    private void RegisterAsPrimaryForBoss()
+    {
+        UnregisterPrimaryDirector();
+
+        if (demonBoss == null)
+        {
+            registeredAsPrimary = true;
+            return;
+        }
+
+        int bossId = demonBoss.GetInstanceID();
+
+        if (primaryDirectorsByBossId.TryGetValue(bossId, out DemonBossDefeatCollapseDirector existing) &&
+            existing != null &&
+            existing != this)
+        {
+            if (!ShouldTakePriorityOver(existing))
+            {
+                registeredAsPrimary = false;
+                registeredBossId = 0;
+                return;
+            }
+
+            existing.UnsubscribeFromBoss();
+            existing.registeredAsPrimary = false;
+            existing.registeredBossId = 0;
+        }
+
+        primaryDirectorsByBossId[bossId] = this;
+        registeredAsPrimary = true;
+        registeredBossId = bossId;
+    }
+
+    private void UnregisterPrimaryDirector()
+    {
+        if (!registeredAsPrimary || registeredBossId == 0)
+        {
+            registeredAsPrimary = false;
+            registeredBossId = 0;
+            return;
+        }
+
+        if (primaryDirectorsByBossId.TryGetValue(registeredBossId, out DemonBossDefeatCollapseDirector existing) &&
+            existing == this)
+        {
+            primaryDirectorsByBossId.Remove(registeredBossId);
+        }
+
+        registeredAsPrimary = false;
+        registeredBossId = 0;
+    }
+
+    private bool IsPrimaryForBoss(Enemy_DemonBoss boss)
+    {
+        if (boss == null)
+            return registeredAsPrimary;
+
+        int bossId = boss.GetInstanceID();
+
+        return primaryDirectorsByBossId.TryGetValue(bossId, out DemonBossDefeatCollapseDirector primary) &&
+               primary == this;
+    }
+
+    private bool ShouldTakePriorityOver(DemonBossDefeatCollapseDirector existing)
+    {
+        if (existing == null)
+            return true;
+        if (existing.sequenceStarted)
+            return false;
+
+        int myScore = GetConfigurationScore();
+        int existingScore = existing.GetConfigurationScore();
+
+        return myScore > existingScore;
+    }
+
+    private int GetConfigurationScore()
+    {
+        int score = 0;
+
+        score += GetConfiguredDialogueLineCount() * 10;
+
+        if (maidenPrefab != null)
+            score += 4;
+
+        if (maidenObject != null)
+            score += 2;
+
+        if (earthquakeBgmPlayer != null || earthquakeBgmClip != null)
+            score += 2;
+
+        if (gameObject.scene.IsValid())
+            score += 1;
+
+        return score;
+    }
+
+    private int GetConfiguredDialogueLineCount()
+    {
+        if (postDefeatDialogueLines == null)
+            return 0;
+
+        int count = 0;
+
+        for (int i = 0; i < postDefeatDialogueLines.Length; i++)
+        {
+            DialogueLine line = postDefeatDialogueLines[i];
+
+            if (line != null && !string.IsNullOrWhiteSpace(line.text))
+                count++;
+        }
+
+        return count;
     }
 
     private static bool IsReversedEntranceAnimation(string stateName)

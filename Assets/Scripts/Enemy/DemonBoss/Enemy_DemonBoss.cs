@@ -37,7 +37,7 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
     [Header("Phase One - Slime")]
     [SerializeField, Min(0.1f)] private float slimeDetectionRadius = 7f;
     [SerializeField, Min(0.1f)] private float slimeContactRadius = 0.75f;
-    [SerializeField, Min(1)] private int slimeContactDamage = 12;
+    [SerializeField, Min(0)] private int slimeContactDamage = 12;
     [SerializeField, Min(0.05f)] private float slimeContactCooldown = 0.85f;
     [SerializeField, Min(0.1f)] private float slimeMoveSpeed = 2.4f;
 
@@ -65,7 +65,10 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
     [SerializeField, Min(0.1f)] private float demonMeleeAttackDistance = 2.6f;
     [SerializeField, Min(0.1f)] private float demonFireBreathDistance = 5.2f;
     [SerializeField, Min(0.1f)] private float demonCastSpellDistance = 8f;
-    [SerializeField, Min(0.1f)] private float demonMoveSpeed = 3f;
+    [SerializeField, Min(0.1f)] private float demonMeleeAttackStartDistance = 4.2f;
+    [SerializeField, Min(0.1f)] private float demonFireBreathStartDistance = 8f;
+    [SerializeField, Min(0.1f)] private float demonCastSpellStartDistance = 10f;
+    [SerializeField, Min(0.1f)] private float demonMoveSpeed = 4.2f;
     [SerializeField, Min(0.05f)] private float demonAttackCooldown = 1.25f;
     [SerializeField, Min(0f)] private float attackRecovery = 0.25f;
 
@@ -76,12 +79,17 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
     [SerializeField, Min(0f)] private float fireBreathWeight = 20f;
     [SerializeField, Min(0f)] private float castSpellWeight = 10f;
     [SerializeField, Range(0f, 1f)] private float fireBreathSelectionWeightMultiplier = 0.45f;
+    [SerializeField, Min(0f)] private float cleaveCooldown = 1.2f;
+    [SerializeField, Min(0f)] private float smashCooldown = 1.6f;
+    [SerializeField, Min(0f)] private float fireBreathCooldown = 4f;
+    [SerializeField, Min(0f)] private float castSpellCooldown = 3f;
+    [SerializeField, Min(0)] private int maxConsecutiveSameAttack = 1;
 
     [Header("Attack Damage")]
-    [SerializeField, Min(1)] private int cleaveDamage = 18;
-    [SerializeField, Min(1)] private int smashDamage = 22;
-    [SerializeField, Min(1)] private int fireBreathDamage = 8;
-    [SerializeField, Min(1)] private int castSpellDamage = 16;
+    [SerializeField, Min(0)] private int cleaveDamage = 18;
+    [SerializeField, Min(0)] private int smashDamage = 22;
+    [SerializeField, Min(0)] private int fireBreathDamage = 8;
+    [SerializeField, Min(0)] private int castSpellDamage = 16;
     [SerializeField, Min(0.05f)] private float fireBreathTickInterval = 0.18f;
 
     [Header("Attack Areas")]
@@ -89,6 +97,9 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
     [SerializeField] private BoxCollider2D phaseTwoCleaveHitbox;
     [SerializeField] private BoxCollider2D phaseTwoSmashHitbox;
     [SerializeField] private BoxCollider2D phaseTwoFireBreathHitbox;
+    [Header("Fire Breath Sprite Hitbox")]
+    [SerializeField] private bool useSpriteFireBreathHitbox = true;
+    [SerializeField] private TextAsset fireBreathHitboxData;
     [SerializeField] private Transform cleaveCheck;
     [SerializeField] private Vector2 cleaveBoxSize = new Vector2(2.2f, 1.4f);
     [SerializeField] private Transform fireBreathCheck;
@@ -102,6 +113,7 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
     [Header("Hit Reaction / Armor")]
     [SerializeField, Min(0)] private int phaseTwoHitReactionsBeforeAdvancedArmor = 3;
     [SerializeField, Min(0f)] private float hitReactionDuration = 0.22f;
+    [SerializeField, Min(0f)] private float advancedSuperArmorDuration = 3f;
 
     [Header("Animation State Names")]
     [SerializeField] private string slimeIdleState = "idle";
@@ -180,6 +192,7 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
     private bool rootAlignedToVisual;
     private bool introPresentationLocked;
     private bool bossCombatStarted;
+    private Coroutine advancedArmorRoutine;
     private float savedTransitionGravityScale = 1f;
     private RigidbodyConstraints2D savedTransitionConstraints;
     private RigidbodyType2D savedTransitionBodyType;
@@ -195,8 +208,16 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
     private bool fireBreathActive;
     private float fireBreathTickTimer;
     private Player phaseTransitionLockedPlayer;
-    private bool hasQueuedDemonAttack;
     private DemonAttack queuedDemonAttack;
+    private bool hasQueuedDemonAttack;
+    private DemonFireBreathHitbox spriteFireBreathHitbox;
+    private float lastCleaveTime = -999f;
+    private float lastSmashTime = -999f;
+    private float lastFireBreathTime = -999f;
+    private float lastCastSpellTime = -999f;
+    private DemonAttack lastSelectedDemonAttack;
+    private int consecutiveSameDemonAttackCount;
+    private bool hasLastSelectedDemonAttack;
     private TMP_Text phaseTwoIntroText;
     private string phaseTwoIntroDisplayText;
     private bool deathStartedNotified;
@@ -252,6 +273,9 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
         EnsureCheckPoints();
         EnsureAttackHitboxes();
         RefreshBodyColliderFromVisual();
+        spriteFireBreathHitbox = new DemonFireBreathHitbox(fireBreathHitboxData);
+        if (useSpriteFireBreathHitbox && fireBreathHitboxData == null)
+            Debug.LogWarning("Demon fire breath has no baked sprite hitboxes. Fire damage is disabled until the data is assigned.", this);
         ResolveBossUiReferences();
 
         if (rb != null)
@@ -367,6 +391,7 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
 
         if (IsLockedPlayerUnavailable())
         {
+            ClearQueuedDemonAttack();
             StopBodyMotion();
             PlayStateIfNotCurrent(GetIdleStateForCurrentPhase());
             return;
@@ -384,6 +409,10 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
             return;
 
         SnapVisualBottomToGround();
+        // Animator has applied the visible sprite before LateUpdate. Sample the
+        // current flame, not the previous frame observed by a coroutine.
+        if (currentMode == BossMode.Attack && !preciseDodgeTimeStopped && Time.deltaTime > 0f)
+            UpdateFireBreathDamageWindow(Time.deltaTime);
     }
 
     private void OnDisable()
@@ -454,7 +483,7 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
         FacePlayer();
         float distance = player != null ? GetHorizontalDistanceToPlayer() : 999f;
 
-        if (distance > demonDetectionRadius)
+        if (distance > demonDetectionRadius && !hasQueuedDemonAttack)
         {
             ClearQueuedDemonAttack();
             SetVelocity(GetHorizontalDirectionToPlayer() * GetDemonMoveSpeed(), rb != null ? rb.velocity.y : 0f);
@@ -466,7 +495,12 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
         {
             if (!hasQueuedDemonAttack)
             {
-                queuedDemonAttack = ChooseAttackForDistance(distance);
+                if (!TryChooseAttack(out queuedDemonAttack))
+                {
+                    MoveTowardPreferredDemonDistance(distance);
+                    return;
+                }
+
                 hasQueuedDemonAttack = true;
             }
 
@@ -552,8 +586,7 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
         RestoreTransitionRootPosition();
 
         currentPhase = BossPhase.Demon;
-        advancedSuperArmor = false;
-        phaseTwoHitReactionCount = 0;
+        StopAdvancedSuperArmor();
         SyncStatsForCurrentPhase();
         RefreshBodyColliderFromVisual();
         RestoreTransitionRootPosition();
@@ -588,6 +621,7 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
 
         StopFireBreathDamageWindow();
         ClearActiveDemonAttack();
+        RecordDemonAttackUse(attack);
         currentActionRoutine = StartCoroutine(DemonAttackRoutine(attack));
     }
 
@@ -631,7 +665,6 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
         if (attackRecovery > 0f)
             yield return WaitWhileNotTimeStopped(attackRecovery);
 
-        advancedSuperArmor = false;
         currentMode = BossMode.Idle;
         currentActionRoutine = null;
     }
@@ -694,7 +727,6 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
                 continue;
             }
 
-            UpdateFireBreathDamageWindow(Time.deltaTime);
             elapsed += Time.deltaTime;
             yield return null;
         }
@@ -709,6 +741,8 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
         float fallbackStartTime = Mathf.Clamp01(fireBreathStartNormalizedTime) * length;
         float fallbackEndTime = Mathf.Clamp01(fireBreathEndNormalizedTime) * length;
         float elapsed = 0f;
+        bool hasStartEvent = HasAnimationEvent(demonFireBreathState, "FireBreathStart");
+        bool hasEndEvent = HasAnimationEvent(demonFireBreathState, "FireBreathEnd");
 
         if (fallbackEndTime < fallbackStartTime)
             fallbackEndTime = fallbackStartTime;
@@ -721,13 +755,10 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
             {
                 elapsed += Time.deltaTime;
 
-                if (!fireBreathStartEventReceived && elapsed >= fallbackStartTime)
+                if (!hasStartEvent && !fireBreathStartEventReceived && elapsed >= fallbackStartTime)
                     AnimationEvent_FireBreathStart();
 
-                if (fireBreathActive)
-                    UpdateFireBreathDamageWindow(Time.deltaTime);
-
-                if (!fireBreathEndEventReceived && elapsed >= fallbackEndTime)
+                if (!hasEndEvent && !fireBreathEndEventReceived && elapsed >= fallbackEndTime)
                     AnimationEvent_FireBreathEnd();
             }
 
@@ -796,11 +827,8 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
             return;
 
         fireBreathActive = true;
-        fireBreathTickTimer = Mathf.Max(0.01f, fireBreathTickInterval);
+        fireBreathTickTimer = fireBreathDamageOnStart ? 0f : Mathf.Max(0.01f, fireBreathTickInterval);
         PlayAudioCue("fire_breath");
-
-        if (fireBreathDamageOnStart)
-            DealFireBreathDamageTick();
     }
 
     private void StopFireBreathDamageWindow()
@@ -823,13 +851,24 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
         if (fireBreathTickTimer > 0f)
             return;
 
-        DealFireBreathDamageTick();
-        fireBreathTickTimer += safeInterval;
+        if (DealFireBreathDamageTick())
+            fireBreathTickTimer = safeInterval;
     }
 
-    private void DealFireBreathDamageTick()
+    private bool DealFireBreathDamageTick()
     {
+        if (useSpriteFireBreathHitbox)
+        {
+            if (spriteFireBreathHitbox == null || visualSpriteRenderer == null)
+                return false;
+
+            Physics2D.SyncTransforms();
+            return spriteFireBreathHitbox.TryFindPlayer(visualSpriteRenderer, playerContactFilter, overlapHits, out Player hitPlayer)
+                && TryDamagePlayer(hitPlayer, fireBreathDamage);
+        }
+
         DealBoxDamage(phaseTwoFireBreathHitbox, fireBreathCheck, fireBreathBoxSize, fireBreathDamage);
+        return true;
     }
 
     public void AnimationEvent_CleaveHit()
@@ -975,47 +1014,17 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
         PlayStateIfNotCurrent(GetIdleStateForCurrentPhase());
     }
 
-    private DemonAttack ChooseAttack()
+    private bool TryChooseAttack(out DemonAttack attack)
     {
         float effectiveCastSpellWeight = GetEffectiveCastSpellWeight();
         float effectiveFireBreathWeight = GetEffectiveFireBreathWeight();
-        float totalWeight = Mathf.Max(0f, cleaveWeight) +
-                            Mathf.Max(0f, smashWeight) +
-                            effectiveFireBreathWeight +
-                            effectiveCastSpellWeight;
 
-        if (totalWeight <= 0f)
-            return DemonAttack.Cleave;
-
-        float roll = Random.Range(0f, totalWeight);
-
-        if ((roll -= Mathf.Max(0f, cleaveWeight)) <= 0f)
-            return DemonAttack.Cleave;
-
-        if ((roll -= Mathf.Max(0f, smashWeight)) <= 0f)
-            return DemonAttack.Smash;
-
-        if ((roll -= effectiveFireBreathWeight) <= 0f)
-            return DemonAttack.FireBreath;
-
-        return DemonAttack.CastSpell;
-    }
-
-    private DemonAttack ChooseAttackForDistance(float distance)
-    {
-        float effectiveFireBreathWeight = GetEffectiveFireBreathWeight();
-        float effectiveCastSpellWeight = GetEffectiveCastSpellWeight();
-
-        if (distance <= demonMeleeAttackDistance)
-            return ChooseWeightedAttack(cleaveWeight, smashWeight, effectiveFireBreathWeight, 0f);
-
-        if (distance <= demonFireBreathDistance)
-            return ChooseWeightedAttack(0f, 0f, effectiveFireBreathWeight, effectiveCastSpellWeight);
-
-        if (distance <= demonDetectionRadius && CanUseCastSpellAttack())
-            return DemonAttack.CastSpell;
-
-        return DemonAttack.FireBreath;
+        return TryChooseWeightedAttack(
+            cleaveWeight,
+            smashWeight,
+            effectiveFireBreathWeight,
+            effectiveCastSpellWeight,
+            out attack);
     }
 
     private void MoveTowardQueuedAttackRange(float distance)
@@ -1033,14 +1042,27 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
         PlayStateIfNotCurrent(demonIdleState);
     }
 
+    private void MoveTowardPreferredDemonDistance(float distance)
+    {
+        if (distance > demonPreferredDistance)
+        {
+            SetVelocity(GetHorizontalDirectionToPlayer() * GetDemonMoveSpeed(), rb != null ? rb.velocity.y : 0f);
+            PlayStateIfNotCurrent(demonWalkState);
+            return;
+        }
+
+        StopBodyMotion();
+        PlayStateIfNotCurrent(demonIdleState);
+    }
+
     private float GetRequiredDistanceForAttack(DemonAttack attack)
     {
         return attack switch
         {
-            DemonAttack.Cleave => demonMeleeAttackDistance,
-            DemonAttack.Smash => demonMeleeAttackDistance,
-            DemonAttack.FireBreath => demonFireBreathDistance,
-            DemonAttack.CastSpell => demonCastSpellDistance,
+            DemonAttack.Cleave => GetMeleeStartDistance(),
+            DemonAttack.Smash => GetMeleeStartDistance(),
+            DemonAttack.FireBreath => GetFireBreathStartDistance(),
+            DemonAttack.CastSpell => GetCastSpellStartDistance(),
             _ => demonPreferredDistance
         };
     }
@@ -1048,43 +1070,145 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
     private void ClearQueuedDemonAttack()
     {
         hasQueuedDemonAttack = false;
+        queuedDemonAttack = DemonAttack.Cleave;
     }
 
-    private DemonAttack ChooseWeightedAttack(float cleave, float smash, float fireBreath, float castSpell)
+    private bool TryChooseWeightedAttack(float cleave, float smash, float fireBreath, float castSpell, out DemonAttack attack)
     {
-        float effectiveCastSpellWeight = enableCastSpellAttack ? castSpell : 0f;
-        float totalWeight = Mathf.Max(0f, cleave) +
-                            Mathf.Max(0f, smash) +
-                            Mathf.Max(0f, fireBreath) +
-                            Mathf.Max(0f, effectiveCastSpellWeight);
+        castSpell = enableCastSpellAttack ? castSpell : 0f;
+        int enabledAttackCount = (cleave > 0f ? 1 : 0) + (smash > 0f ? 1 : 0) +
+            (fireBreath > 0f ? 1 : 0) + (castSpell > 0f ? 1 : 0);
+        // A single configured attack cannot alternate, but must still obey its cooldown.
+        bool allowRepeat = enabledAttackCount == 1;
+        float cleaveSelectable = GetSelectableAttackWeight(DemonAttack.Cleave, cleave, allowRepeat);
+        float smashSelectable = GetSelectableAttackWeight(DemonAttack.Smash, smash, allowRepeat);
+        float fireSelectable = GetSelectableAttackWeight(DemonAttack.FireBreath, fireBreath, allowRepeat);
+        float castSelectable = GetSelectableAttackWeight(DemonAttack.CastSpell, castSpell, allowRepeat);
+        float totalWeight = cleaveSelectable + smashSelectable + fireSelectable + castSelectable;
 
         if (totalWeight <= 0f)
-            return ChooseAttack();
+        {
+            attack = DemonAttack.Cleave;
+            return false;
+        }
 
         float roll = Random.Range(0f, totalWeight);
 
-        if ((roll -= Mathf.Max(0f, cleave)) <= 0f)
-            return DemonAttack.Cleave;
+        if (cleaveSelectable > 0f && (roll < cleaveSelectable ||
+            (smashSelectable <= 0f && fireSelectable <= 0f && castSelectable <= 0f)))
+        {
+            attack = DemonAttack.Cleave;
+            return true;
+        }
 
-        if ((roll -= Mathf.Max(0f, smash)) <= 0f)
-            return DemonAttack.Smash;
+        roll -= cleaveSelectable;
+        if (smashSelectable > 0f && (roll < smashSelectable ||
+            (fireSelectable <= 0f && castSelectable <= 0f)))
+        {
+            attack = DemonAttack.Smash;
+            return true;
+        }
 
-        if ((roll -= Mathf.Max(0f, fireBreath)) <= 0f)
-            return DemonAttack.FireBreath;
+        roll -= smashSelectable;
+        if (fireSelectable > 0f && (roll < fireSelectable || castSelectable <= 0f))
+        {
+            attack = DemonAttack.FireBreath;
+            return true;
+        }
 
-        return DemonAttack.CastSpell;
+        attack = DemonAttack.CastSpell;
+        return true;
     }
 
     private bool CanStartAttackAtDistance(DemonAttack attack, float distance)
     {
         return attack switch
         {
-            DemonAttack.Cleave => distance <= demonMeleeAttackDistance,
-            DemonAttack.Smash => distance <= demonMeleeAttackDistance,
-            DemonAttack.FireBreath => distance <= demonFireBreathDistance,
-            DemonAttack.CastSpell => CanUseCastSpellAttack() && distance <= demonDetectionRadius,
+            DemonAttack.Cleave => distance <= GetMeleeStartDistance(),
+            DemonAttack.Smash => distance <= GetMeleeStartDistance(),
+            DemonAttack.FireBreath => distance <= GetFireBreathStartDistance(),
+            DemonAttack.CastSpell => CanUseCastSpellAttack() && distance <= GetCastSpellStartDistance(),
             _ => false
         };
+    }
+
+    private float GetSelectableAttackWeight(DemonAttack attack, float baseWeight, bool allowRepeat)
+    {
+        return CanSelectAttack(attack, allowRepeat) ? Mathf.Max(0f, baseWeight) : 0f;
+    }
+
+    private bool CanSelectAttack(DemonAttack attack, bool allowRepeat)
+    {
+        if (attack == DemonAttack.CastSpell && !CanUseCastSpellAttack())
+            return false;
+
+        return IsAttackCooldownReady(attack) && (allowRepeat || CanRepeatAttack(attack));
+    }
+
+    private bool IsAttackCooldownReady(DemonAttack attack)
+    {
+        float now = Time.time;
+
+        return attack switch
+        {
+            DemonAttack.Cleave => now >= lastCleaveTime + cleaveCooldown,
+            DemonAttack.Smash => now >= lastSmashTime + smashCooldown,
+            DemonAttack.FireBreath => now >= lastFireBreathTime + fireBreathCooldown,
+            DemonAttack.CastSpell => now >= lastCastSpellTime + castSpellCooldown,
+            _ => true
+        };
+    }
+
+    private bool CanRepeatAttack(DemonAttack attack)
+    {
+        return maxConsecutiveSameAttack <= 0 ||
+               !hasLastSelectedDemonAttack ||
+               attack != lastSelectedDemonAttack ||
+               consecutiveSameDemonAttackCount < maxConsecutiveSameAttack;
+    }
+
+    private void RecordDemonAttackUse(DemonAttack attack)
+    {
+        float now = Time.time;
+
+        switch (attack)
+        {
+            case DemonAttack.Cleave:
+                lastCleaveTime = now;
+                break;
+            case DemonAttack.Smash:
+                lastSmashTime = now;
+                break;
+            case DemonAttack.FireBreath:
+                lastFireBreathTime = now;
+                break;
+            case DemonAttack.CastSpell:
+                lastCastSpellTime = now;
+                break;
+        }
+
+        if (hasLastSelectedDemonAttack && attack == lastSelectedDemonAttack)
+            consecutiveSameDemonAttackCount++;
+        else
+            consecutiveSameDemonAttackCount = 1;
+
+        lastSelectedDemonAttack = attack;
+        hasLastSelectedDemonAttack = true;
+    }
+
+    private float GetMeleeStartDistance()
+    {
+        return Mathf.Max(0.1f, Mathf.Max(demonMeleeAttackDistance, demonMeleeAttackStartDistance));
+    }
+
+    private float GetFireBreathStartDistance()
+    {
+        return Mathf.Max(0.1f, Mathf.Max(demonFireBreathDistance, demonFireBreathStartDistance));
+    }
+
+    private float GetCastSpellStartDistance()
+    {
+        return Mathf.Max(0.1f, Mathf.Max(demonCastSpellDistance, demonCastSpellStartDistance));
     }
 
     private bool TryDamagePlayerByCircle(float radius, int damage, bool useCooldown)
@@ -1190,10 +1314,13 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
         if (targetStats == null || targetStats.isDead)
             return false;
 
+        if (damage <= 0)
+            return false;
+
         if (hitPlayer.TryStartPreciseDodge(transform))
             return true;
 
-        targetStats.TakeDamage(Mathf.Max(1, damage));
+        targetStats.TakeDamage(damage);
         return true;
     }
 
@@ -1255,13 +1382,10 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
         if (advancedSuperArmor)
             return;
 
-        if (phaseTwoHitReactionCount >= phaseTwoHitReactionsBeforeAdvancedArmor)
-        {
-            advancedSuperArmor = true;
-            return;
-        }
-
         phaseTwoHitReactionCount++;
+        // Start the armor timer after this stagger, but prevent restarting it.
+        if (HasReachedPhaseTwoHitReactionThreshold())
+            advancedSuperArmor = true;
         StartHitReaction(demonHitState);
     }
 
@@ -1284,8 +1408,46 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
         float length = PlayStateAndGetLength(hitState);
         yield return WaitWhileNotTimeStopped(Mathf.Max(hitReactionDuration, length));
 
+        if (currentPhase == BossPhase.Demon && HasReachedPhaseTwoHitReactionThreshold())
+            BeginAdvancedSuperArmor();
+
         currentMode = BossMode.Idle;
         currentActionRoutine = null;
+    }
+
+    private bool HasReachedPhaseTwoHitReactionThreshold()
+    {
+        return phaseTwoHitReactionCount >= Mathf.Max(1, phaseTwoHitReactionsBeforeAdvancedArmor);
+    }
+
+    private void BeginAdvancedSuperArmor()
+    {
+        advancedSuperArmor = true;
+        phaseTwoHitReactionCount = 0;
+
+        if (advancedArmorRoutine != null)
+            StopCoroutine(advancedArmorRoutine);
+
+        advancedArmorRoutine = StartCoroutine(AdvancedSuperArmorRoutine());
+    }
+
+    private IEnumerator AdvancedSuperArmorRoutine()
+    {
+        yield return WaitWhileNotTimeStopped(advancedSuperArmorDuration);
+        advancedSuperArmor = false;
+        advancedArmorRoutine = null;
+    }
+
+    private void StopAdvancedSuperArmor()
+    {
+        if (advancedArmorRoutine != null)
+        {
+            StopCoroutine(advancedArmorRoutine);
+            advancedArmorRoutine = null;
+        }
+
+        advancedSuperArmor = false;
+        phaseTwoHitReactionCount = 0;
     }
 
     public override void FreezeTime(bool _timeFrozen)
@@ -1345,6 +1507,7 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
         currentMode = BossMode.Dead;
         StopBodyMotion();
         EndPhaseTransitionPhysicsLock();
+        StopAdvancedSuperArmor();
         FreezeBodyForDeath();
         NotifyDeathStarted();
         UnlockPlayerForPhaseTransition();
@@ -1944,6 +2107,25 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
         return fallbackAnimationLength;
     }
 
+    private bool HasAnimationEvent(string stateName, string functionName)
+    {
+        if (anim == null || anim.runtimeAnimatorController == null)
+            return false;
+
+        string normalizedTarget = NormalizeAnimationName(stateName);
+        foreach (AnimationClip clip in anim.runtimeAnimatorController.animationClips)
+        {
+            if (clip == null || NormalizeAnimationName(clip.name) != normalizedTarget)
+                continue;
+
+            foreach (AnimationEvent animationEvent in clip.events)
+                if (animationEvent.functionName == functionName)
+                    return true;
+        }
+
+        return false;
+    }
+
     private string NormalizeAnimationName(string animationName)
     {
         return string.IsNullOrWhiteSpace(animationName)
@@ -2237,7 +2419,7 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
 
     private float GetDemonMoveSpeed()
     {
-        return Mathf.Max(0.1f, moveSpeed > 0f ? moveSpeed : demonMoveSpeed);
+        return Mathf.Max(0.1f, Mathf.Max(moveSpeed, demonMoveSpeed));
     }
 
     private bool CanUseCastSpellAttack()
@@ -2410,16 +2592,22 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
         DrawHitboxGizmo(phaseOneContactHitbox, new Color(1f, 0.85f, 0.15f, 0.55f));
         DrawHitboxGizmo(phaseTwoCleaveHitbox, new Color(1f, 0.72f, 0.1f, 0.6f));
         DrawHitboxGizmo(phaseTwoSmashHitbox, new Color(1f, 0.45f, 0.05f, 0.6f));
-        DrawHitboxGizmo(
-            phaseTwoFireBreathHitbox,
-            Application.isPlaying && fireBreathActive
-                ? new Color(1f, 0.08f, 0f, 0.9f)
-                : new Color(1f, 0.25f, 0.05f, 0.5f));
+        if (useSpriteFireBreathHitbox)
+        {
+            if (visualSpriteRenderer == null)
+                CacheVisualReferences();
+            if (spriteFireBreathHitbox == null)
+                spriteFireBreathHitbox = new DemonFireBreathHitbox(fireBreathHitboxData);
+            spriteFireBreathHitbox.DrawGizmos(visualSpriteRenderer,
+                new Color(1f, 0.15f, 0f, Application.isPlaying && fireBreathActive ? 0.4f : 0.15f));
+        }
+        else
+            DrawHitboxGizmo(phaseTwoFireBreathHitbox, new Color(1f, 0.25f, 0.05f, 0.5f));
 
         if (phaseTwoCleaveHitbox == null)
             DrawBoxGizmo(cleaveCheck, cleaveBoxSize, new Color(1f, 0.75f, 0.15f, 0.55f));
 
-        if (phaseTwoFireBreathHitbox == null)
+        if (!useSpriteFireBreathHitbox && phaseTwoFireBreathHitbox == null)
             DrawBoxGizmo(fireBreathCheck, fireBreathBoxSize, new Color(1f, 0.25f, 0.05f, 0.45f));
 
         if (phaseTwoSmashHitbox == null)

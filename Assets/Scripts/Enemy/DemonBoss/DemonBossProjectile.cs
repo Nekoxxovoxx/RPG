@@ -5,7 +5,7 @@ using UnityEngine;
 public class DemonBossProjectile : MonoBehaviour
 {
     [SerializeField, Min(0.1f)] private float speed = 8f;
-    [SerializeField, Min(1)] private int damage = 18;
+    [SerializeField, Min(0)] private int damage = 18;
     [SerializeField, Min(0.1f)] private float lifeTime = 4f;
     [SerializeField, Min(0f)] private float explosionDelay = 0.25f;
     [SerializeField] private string explosionStateName = "projectile_explosion";
@@ -33,7 +33,7 @@ public class DemonBossProjectile : MonoBehaviour
     {
         owner = projectileOwner;
         speed = Mathf.Max(0.1f, projectileSpeed);
-        damage = Mathf.Max(1, projectileDamage);
+        damage = Mathf.Max(0, projectileDamage);
 
         Vector2 safeDirection = direction.sqrMagnitude > 0.001f ? direction.normalized : Vector2.right;
         rb.velocity = safeDirection * speed;
@@ -50,6 +50,12 @@ public class DemonBossProjectile : MonoBehaviour
 
         if (player == null)
             return;
+
+        if (damage <= 0)
+        {
+            Explode();
+            return;
+        }
 
         if (owner != null && player.TryStartPreciseDodge(owner.transform))
         {

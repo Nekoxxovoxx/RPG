@@ -265,7 +265,7 @@ public class EnemyItemDropEntry
 
     public bool ShouldDrop()
     {
-        return item != null && UnityEngine.Random.Range(0f, 100f) <= dropChance;
+        return item != null && UnityEngine.Random.Range(0f, 100f) < dropChance;
     }
 
     public int RollAmount()

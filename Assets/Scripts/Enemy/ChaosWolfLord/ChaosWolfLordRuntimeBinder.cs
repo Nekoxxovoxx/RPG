@@ -9,6 +9,7 @@ public static class ChaosWolfLordRuntimeBinder
     private static void BindCurrentScene()
     {
         BindChaosWolfLordInScene(SceneManager.GetActiveScene());
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 

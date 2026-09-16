@@ -227834,13 +227834,16 @@ MonoBehaviour:
   phaseTwoIntroDuration: 1.2
   phaseTwoIntroCharactersPerSecond: 4
   phaseTwoBgmPlayer: {fileID: 870000000006}
-  demonDetectionRadius: 10
-  demonPreferredDistance: 2.1
+  demonDetectionRadius: 12
+  demonPreferredDistance: 2.6
   demonMeleeAttackDistance: 2.6
   demonFireBreathDistance: 5.2
   demonCastSpellDistance: 8
-  demonMoveSpeed: 3
-  demonAttackCooldown: 1.25
+  demonMeleeAttackStartDistance: 4.2
+  demonFireBreathStartDistance: 8.5
+  demonCastSpellStartDistance: 10
+  demonMoveSpeed: 4.2
+  demonAttackCooldown: 1.1
   attackRecovery: 0.25
   enableCastSpellAttack: 0
   cleaveWeight: 50
@@ -227848,15 +227851,22 @@ MonoBehaviour:
   fireBreathWeight: 10
   castSpellWeight: 0
   fireBreathSelectionWeightMultiplier: 0.177
+  cleaveCooldown: 1.2
+  smashCooldown: 1.6
+  fireBreathCooldown: 4
+  castSpellCooldown: 3
+  maxConsecutiveSameAttack: 1
   cleaveDamage: 30
   smashDamage: 40
   fireBreathDamage: 20
   castSpellDamage: 16
-  fireBreathTickInterval: 0.18
+  fireBreathTickInterval: 0.22
   phaseOneContactHitbox: {fileID: 2118419979}
   phaseTwoCleaveHitbox: {fileID: 172392030}
   phaseTwoSmashHitbox: {fileID: 1286278696}
   phaseTwoFireBreathHitbox: {fileID: 192454767}
+  useSpriteFireBreathHitbox: 1
+  fireBreathHitboxData: {fileID: 4900000, guid: aa5b668368394733a0c11c825ae30bc3, type: 3}
   cleaveCheck: {fileID: 738289117}
   cleaveBoxSize: {x: 2.2, y: 1.4}
   fireBreathCheck: {fileID: 738289119}
@@ -551190,20 +551200,22 @@ MonoBehaviour:
   moveSpeed: 8
   idleTime: 0
   battleTime: 0
-  defaultMoveSpeed: 3.2
+  defaultMoveSpeed: 4.2
   attackDistance: 2
   AttackCoolDown: 1.15
   lastTimeAttacked: 0
   detectionRadius: 9
   loseTargetRadius: 11
-  preferredAttackDistance: 2
-  chaseMoveSpeed: 3.2
+  preferredAttackDistance: 2.6
+  chaseMoveSpeed: 9.2
   enableDashChase: 1
   dashCooldown: 5
-  dashSpeed: 25
-  dashDuration: 0.28
+  dashSpeed: 16
+  dashDuration: 0.22
   dashMinDistance: 4
-  dashStopDistance: 1.7
+  dashStopDistance: 2.2
+  dashWindupTime: 0.12
+  dashRecovery: 0.14
   attackCooldown: 1.15
   attackRecovery: 0.12
   attackStateNames:
@@ -551211,6 +551223,11 @@ MonoBehaviour:
   - langzhu attack2
   - langzhu attack3
   attackDamages: 100000001200000018000000
+  attackStartDistances:
+  - 2.6
+  - 2.8
+  - 3
+  attackVerticalTolerance: 1.8
   useAnimationEventAttackHits: 1
   attack1Hitboxes:
   - {fileID: 1886166694}
@@ -578034,6 +578051,7 @@ GameObject:
   - component: {fileID: 870000000007}
   - component: {fileID: 870000000008}
   - component: {fileID: 870000000009}
+  - component: {fileID: 870000000010}
   m_Layer: 0
   m_Name: SceneAudio
   m_TagString: Untagged
@@ -578157,7 +578175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   demonBoss: {fileID: 738289104}
-  cameraDirector: {fileID: 738289107}
+  cameraDirector: {fileID: 870000000010}
   lockPlayerDuringSequence: 1
   maidenSpawnOffset: {x: 1.4, y: 0}
   delayAfterBossDisappear: 5
@@ -578224,6 +578242,19 @@ MonoBehaviour:
   playOnStart: 0
   portalTrigger: {fileID: 0}
   playOnPortalTeleported: 0
+--- !u!114 &870000000010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 870000000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a97b1a9b2fe16848bf1349de1072477, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  promptCharactersPerSecond: 18
 --- !u!114 &870000010001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -578556,9 +578587,9 @@ MonoBehaviour:
   bossUiGroupName: "\u8D64\u9AD3boss"
   healthSliderName: "\u8840\u6761_UI"
   introTextName: "\u6F14\u51FA\u663E\u793A"
-  bossHealthBar: {fileID: 0}
-  bossHealthSlider: {fileID: 0}
-  introText: {fileID: 0}
+  bossHealthBar: {fileID: 512856433}
+  bossHealthSlider: {fileID: 512856432}
+  introText: {fileID: 715013484}
   introDisplayText: 
   typewriterCharactersPerSecond: 4
   cameraDirector: {fileID: 738289107}

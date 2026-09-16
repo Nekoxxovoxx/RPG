@@ -17,16 +17,18 @@ public class Enemy_ChaosWolfLord : Enemy, IGenericControlImmuneEnemy, IPreciseDo
     [Header("Detection")]
     [SerializeField, Min(0.1f)] private float detectionRadius = 9f;
     [SerializeField, Min(0.1f)] private float loseTargetRadius = 11f;
-    [SerializeField, Min(0.1f)] private float preferredAttackDistance = 2f;
-    [SerializeField, Min(0.1f)] private float chaseMoveSpeed = 3.2f;
+    [SerializeField, Min(0.1f)] private float preferredAttackDistance = 2.6f;
+    [SerializeField, Min(0.1f)] private float chaseMoveSpeed = 4.2f;
 
     [Header("Dash Chase")]
     [SerializeField] private bool enableDashChase = true;
     [SerializeField, Min(0.1f)] private float dashCooldown = 5f;
-    [SerializeField, Min(0.1f)] private float dashSpeed = 8f;
-    [SerializeField, Min(0.05f)] private float dashDuration = 0.28f;
+    [SerializeField, Min(0.1f)] private float dashSpeed = 16f;
+    [SerializeField, Min(0.05f)] private float dashDuration = 0.22f;
     [SerializeField, Min(0.1f)] private float dashMinDistance = 4f;
-    [SerializeField, Min(0.1f)] private float dashStopDistance = 1.7f;
+    [SerializeField, Min(0.1f)] private float dashStopDistance = 2.2f;
+    [SerializeField, Min(0f)] private float dashWindupTime = 0.12f;
+    [SerializeField, Min(0f)] private float dashRecovery = 0.14f;
 
     [Header("Combo Attack")]
     [SerializeField, Min(0.05f)] private float attackCooldown = 1.15f;
@@ -38,6 +40,8 @@ public class Enemy_ChaosWolfLord : Enemy, IGenericControlImmuneEnemy, IPreciseDo
         "langzhu attack3"
     };
     [SerializeField] private int[] attackDamages = { 16, 18, 24 };
+    [SerializeField] private float[] attackStartDistances = { 2.6f, 2.8f, 3f };
+    [SerializeField, Min(0.1f)] private float attackVerticalTolerance = 1.8f;
     [SerializeField] private bool useAnimationEventAttackHits = true;
 
     [Header("Attack Hitboxes")]
@@ -179,6 +183,13 @@ public class Enemy_ChaosWolfLord : Enemy, IGenericControlImmuneEnemy, IPreciseDo
         if (IsPlayerInAttackRange() && Time.time >= lastAttackTime + attackCooldown)
         {
             StartAttack();
+            return;
+        }
+
+        if (IsPlayerInAttackRange())
+        {
+            StopBodyMotion();
+            PlayStateIfNotCurrent(idleStateName);
             return;
         }
 
@@ -341,8 +352,8 @@ public class Enemy_ChaosWolfLord : Enemy, IGenericControlImmuneEnemy, IPreciseDo
         if (Time.time < lastDashTime + dashCooldown)
             return false;
 
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-        return distanceToPlayer >= dashMinDistance && distanceToPlayer > preferredAttackDistance;
+        float distanceToPlayer = GetHorizontalDistanceToPlayer();
+        return distanceToPlayer >= dashMinDistance && distanceToPlayer > GetNextAttackStartDistance();
     }
 
     private void StartDashChase()
@@ -355,6 +366,16 @@ public class Enemy_ChaosWolfLord : Enemy, IGenericControlImmuneEnemy, IPreciseDo
     {
         ChangeState(WolfState.Dash);
         lastDashTime = Time.time;
+        FacePlayer();
+
+        StopBodyMotion();
+
+        if (dashWindupTime > 0f)
+            yield return WaitWhileNotTimeStopped(dashWindupTime);
+
+        if (currentState == WolfState.Dead)
+            yield break;
+
         FacePlayer();
 
         float directionX = player != null
@@ -389,6 +410,10 @@ public class Enemy_ChaosWolfLord : Enemy, IGenericControlImmuneEnemy, IPreciseDo
         }
 
         StopBodyMotion();
+
+        if (dashRecovery > 0f)
+            yield return WaitWhileNotTimeStopped(dashRecovery);
+
         ChangeState(WolfState.Idle);
         actionRoutine = null;
     }
@@ -465,10 +490,13 @@ public class Enemy_ChaosWolfLord : Enemy, IGenericControlImmuneEnemy, IPreciseDo
         if (targetStats == null || targetStats.isDead)
             return false;
 
+        if (damage <= 0)
+            return false;
+
         if (hitPlayer.TryStartPreciseDodge(transform))
             return true;
 
-        targetStats.TakeDamage(Mathf.Max(1, damage));
+        targetStats.TakeDamage(damage);
         return true;
     }
 
@@ -487,6 +515,9 @@ public class Enemy_ChaosWolfLord : Enemy, IGenericControlImmuneEnemy, IPreciseDo
             return;
 
         hitReactionCount++;
+        // Protect the final stagger from being restarted by rapid successive hits.
+        if (hitReactionCount >= Mathf.Max(1, hitReactionsBeforeAdvancedArmor))
+            advancedSuperArmor = true;
         StartHitReaction();
     }
 
@@ -504,7 +535,7 @@ public class Enemy_ChaosWolfLord : Enemy, IGenericControlImmuneEnemy, IPreciseDo
         float length = PlayStateAndGetLength(hitStateName);
         yield return WaitWhileNotTimeStopped(Mathf.Max(hitReactionDuration, length));
 
-        if (hitReactionCount >= hitReactionsBeforeAdvancedArmor)
+        if (hitReactionCount >= Mathf.Max(1, hitReactionsBeforeAdvancedArmor))
             BeginAdvancedSuperArmor();
 
         ChangeState(WolfState.Idle);
@@ -536,6 +567,8 @@ public class Enemy_ChaosWolfLord : Enemy, IGenericControlImmuneEnemy, IPreciseDo
 
         ChangeState(WolfState.Dead);
         StopActionRoutine();
+        advancedSuperArmor = false;
+        hitReactionCount = 0;
 
         if (advancedArmorRoutine != null)
         {
@@ -647,7 +680,24 @@ public class Enemy_ChaosWolfLord : Enemy, IGenericControlImmuneEnemy, IPreciseDo
         if (player == null)
             return false;
 
-        return Vector2.Distance(transform.position, player.position) <= preferredAttackDistance;
+        return GetHorizontalDistanceToPlayer() <= GetNextAttackStartDistance() &&
+               GetVerticalDistanceToPlayer() <= attackVerticalTolerance;
+    }
+
+    private float GetHorizontalDistanceToPlayer()
+    {
+        if (player == null)
+            return 999f;
+
+        return Mathf.Abs(player.position.x - transform.position.x);
+    }
+
+    private float GetVerticalDistanceToPlayer()
+    {
+        if (player == null)
+            return 999f;
+
+        return Mathf.Abs(player.position.y - transform.position.y);
     }
 
     private void ResolvePlayer()
@@ -784,6 +834,19 @@ public class Enemy_ChaosWolfLord : Enemy, IGenericControlImmuneEnemy, IPreciseDo
             return 1;
 
         return Mathf.Max(1, attackDamages[Mathf.Clamp(index, 0, attackDamages.Length - 1)]);
+    }
+
+    private float GetNextAttackStartDistance()
+    {
+        return GetAttackStartDistance(comboCounter);
+    }
+
+    private float GetAttackStartDistance(int index)
+    {
+        if (attackStartDistances == null || attackStartDistances.Length == 0)
+            return preferredAttackDistance;
+
+        return Mathf.Max(0.1f, attackStartDistances[Mathf.Clamp(index, 0, attackStartDistances.Length - 1)]);
     }
 
     private float GetAttackHitTime(int index)
