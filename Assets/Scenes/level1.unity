@@ -8908,6 +8908,7 @@ GameObject:
   m_Component:
   - component: {fileID: 164674368}
   - component: {fileID: 164674367}
+  - component: {fileID: 164674369}
   m_Layer: 0
   m_Name: Inventory
   m_TagString: Untagged
@@ -8929,6 +8930,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingItems:
   - {fileID: 11400000, guid: f22265fbb7aaa1440a1e902f51cbf7e1, type: 2}
+  - {fileID: 11400000, guid: 6125ae2fd6626634dbfe91700c1d049a, type: 2}
   equipment: []
   inventory: []
   stash: []
@@ -8939,6 +8941,31 @@ MonoBehaviour:
   inspectorTargetEmbers: 99999
   applyInspectorTargetEmbers: 0
   inspectorCurrentEmbers: 0
+--- !u!114 &164674369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 164674366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eeaf48b6e33b0a943aa395085666bda5, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  mainFlaskItemData: {fileID: 11400000, guid: 6125ae2fd6626634dbfe91700c1d049a, type: 2}
+  mainMaxCharges: 3
+  mainCurrentCharges: 3
+  mainHealPercent: 0.3
+  mainCapacityUpgradeLevel: 0
+  mainHealingUpgradeLevel: 0
+  saveFlaskProgress: 1
+  initialSubFlasks:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  cooldownDuration: 5
 --- !u!4 &164674368
 Transform:
   m_ObjectHideFlags: 0

@@ -33,6 +33,8 @@ public class Enemy : Entity
     public string lastAnimBoolName { get; private set; }
     private int timedFreezeCount;
     private bool externalFreeze;
+    private int controlGeneration;
+    private float slowSpeedMultiplier = 1f;
     public bool IsFrozen => timedFreezeCount > 0 || externalFreeze;
 
     protected override void Awake()
@@ -54,17 +56,18 @@ public class Enemy : Entity
 
     public override void SlowEntityBy(float _slowPercentage, float _slowDuration)
     {
-        moveSpeed = moveSpeed * (1 - _slowPercentage);
-        anim.speed = anim.speed * (1 - _slowPercentage);
-
-        Invoke("ReturnDefaultSpeed", _slowDuration);
+        if (_slowDuration <= 0f || _slowPercentage <= 0f)
+            return;
+        slowSpeedMultiplier = Mathf.Min(slowSpeedMultiplier, 1f - Mathf.Clamp01(_slowPercentage));
+        CancelInvoke(nameof(ReturnDefaultSpeed));
+        ApplyFreezeState();
+        Invoke(nameof(ReturnDefaultSpeed), _slowDuration);
     }
 
     protected override void ReturnDefaultSpeed()
     {
-        base.ReturnDefaultSpeed();
-
-        moveSpeed = defaultMoveSpeed;
+        slowSpeedMultiplier = 1f;
+        ApplyFreezeState();
     }
     public virtual void FreezeTime(bool _timeFrozen)
     {
@@ -82,8 +85,8 @@ public class Enemy : Entity
         }
         else
         {
-            moveSpeed = defaultMoveSpeed;
-            if (anim != null) anim.speed = 1;
+            moveSpeed = defaultMoveSpeed * slowSpeedMultiplier;
+            if (anim != null) anim.speed = slowSpeedMultiplier;
         }
     }
 
@@ -94,11 +97,26 @@ public class Enemy : Entity
         if (_seconds <= 0f || (this is IGenericControlImmuneEnemy immune && immune.IsImmuneToGenericEnemyControl))
             yield break;
         timedFreezeCount++;
+        int generation = controlGeneration;
         ApplyFreezeState();
 
         yield return new WaitForSeconds(_seconds);
 
+        if (generation != controlGeneration)
+            yield break;
         timedFreezeCount = Mathf.Max(0, timedFreezeCount - 1);
+        ApplyFreezeState();
+    }
+
+    protected virtual void OnDisable()
+    {
+        // Disabling a GameObject stops timers; stale timers on a disabled
+        // component must not clear a newly applied freeze after re-enabling.
+        controlGeneration++;
+        timedFreezeCount = 0;
+        externalFreeze = false;
+        slowSpeedMultiplier = 1f;
+        CancelInvoke(nameof(ReturnDefaultSpeed));
         ApplyFreezeState();
     }
 

@@ -23,6 +23,18 @@ The old remote main branch is not replaced.
 - Scene bindings: demon intro slider/presenter/text explicitly assigned;
   collapse camera director now resides on SceneAudio, not the destroyed boss.
   Wolf and demon UI groups verified separately.
+- Lifecycle stage (2026-09-19): level1 now explicitly references the main flask
+  asset and includes it in starting items. Auto-equip waits for inventory
+  initialization rather than a fixed number of frames. Renaming a bound flask
+  no longer breaks registration. A duplicate flask component cannot destroy
+  its player/inventory host.
+- Dead players cannot consume main/sub flasks; main flasks also reject full
+  health, zero healing and the zero-health Moon Shadow survival window.
+- Death/rest skill cancellation now removes all spawned suns and immediately
+  releases their enemy control. Disabling the Sun skill also cleans up suns.
+- Slow expiry no longer resumes animation/movement during an active freeze.
+  Freeze expiry retains an active slow. Disabling/re-enabling enemies clears
+  control state without old timers releasing newly applied freezes.
 
 ## Verification
 
@@ -36,19 +48,25 @@ All counts below are assertions, not separate test cases.
 - BossRuntimeValidation.Run: 20 passed in Play mode in an empty unsaved scene.
   Rapid hits, timed armor expiry, precise-dodge time stop, hurt audio during
   both armor modes, and zero damage were exercised on both bosses.
+- LifecycleValidation.Run: 32 passed, including serialized scene/build flask
+  dependencies and isolated Play-mode flask, sun and enemy-control checks.
+  Fixtures do not load or save the player's progress.
+- All five checks above were run again on 2026-09-19.
 - dotnet build YJ.sln --no-restore: 0 warnings, 0 errors.
-- Windows build: succeeded, 0 errors, 3 warnings. Output:
+- Windows build (2026-09-19): succeeded, 0 errors, 8 warnings. Output:
   Builds/RepairDemo/YJ.exe (ignored by Git).
 - git diff --check: passed.
 
-Build warnings: two unused editor-only TilemapSlopeCollider fields, and the
-8192-pixel font atlas exceeding the headless graphics device's 4096 limit.
-The latter needs visual validation on the target graphics hardware.
+Build warnings: two unused editor-only TilemapSlopeCollider fields, two
+8192-pixel font-atlas warnings from the headless device's 4096 limit, and four
+ambient/reflection-probe warnings because the headless renderer is null.
+Fonts and lighting still need visual validation on the target graphics hardware.
 
 ## Running Checks
 
 Use Unity batch mode with -executeMethod and the method names above.
-For BossRuntimeValidation.Run, omit -quit; it enters/exits Play mode and exits
+For BossRuntimeValidation.Run and LifecycleValidation.Run, omit -quit;
+each enters/exits Play mode and exits
 the batch editor itself. Other checks use -quit. Do not run multiple Unity
 processes against this project simultaneously.
 
@@ -70,3 +88,5 @@ Its diagnostic overlay is written to Logs/CombatValidation/fire-hitboxes.png.
   do not overwrite the project wholesale with recovered text snapshots.
 - Continue auditing build-only initialization, save/rest lifecycle and remaining
   equipment/control interactions in the next restoration stage.
+- See HISTORY_AUDIT.md for the partial historical audit and confirmed gaps.
+  Passing these checks does not mean every historical feature is restored.

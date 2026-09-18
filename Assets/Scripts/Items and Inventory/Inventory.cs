@@ -4,6 +4,7 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     public static Inventory instance;
+    public bool IsInitialized { get; private set; }
 
     public List<ItemData> startingItems;
 
@@ -71,6 +72,7 @@ public class Inventory : MonoBehaviour
         equipmentSlot = equipmentSlotParent != null ? equipmentSlotParent.GetComponentsInChildren<UI_EquipmentSlot>(true) : new UI_EquipmentSlot[0];
         statSlot = statSlotParent != null ? statSlotParent.GetComponentsInChildren<UI_StatSlot>(true) : new UI_StatSlot[0];
 
+        IsInitialized = true;
         AddStatringItems();
         PlayerFlaskSystem.GetOrCreate();
         RefreshInspectorCurrentEmbers();

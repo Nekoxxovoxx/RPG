@@ -107,6 +107,8 @@ public class SkillManager : MonoBehaviour
 
     public void CancelAllActiveSkills()
     {
+        if (sun != null)
+            sun.CancelActiveSuns();
         awakening?.CancelAwakening();
         invisibility?.CancelInvisibility();
         preciseDodge?.CancelPreciseDodge();

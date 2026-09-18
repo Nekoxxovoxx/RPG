@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Sun_Skill : Skill
 {
@@ -23,6 +24,7 @@ public class Sun_Skill : Skill
     private bool durationUpgradeUnlocked;
     private bool maxTargetsUpgradeUnlocked;
     private bool wideDamageUnlocked;
+    private readonly List<GameObject> activeSuns = new List<GameObject>();
 
     public float CastDuration => castDuration;
     public float LifeTime => GetCurrentLifeTime();
@@ -70,6 +72,8 @@ public class Sun_Skill : Skill
             caster.transform.position.z);
 
         GameObject sun = Instantiate(sunPrefab, spawnPosition, Quaternion.identity);
+        activeSuns.RemoveAll(instance => instance == null);
+        activeSuns.Add(sun);
         SunSkillEffect sunEffect = sun.GetComponent<SunSkillEffect>();
 
         if (sunEffect != null)
@@ -81,6 +85,21 @@ public class Sun_Skill : Skill
             sunEffect.Play(targetDiameter, growDuration, GetCurrentLifeTime());
         }
     }
+
+    public void CancelActiveSuns()
+    {
+        foreach (GameObject sun in activeSuns)
+        {
+            if (sun == null)
+                continue;
+            // Release control immediately, before Destroy completes at frame end.
+            sun.SetActive(false);
+            Destroy(sun);
+        }
+        activeSuns.Clear();
+    }
+
+    private void OnDisable() => CancelActiveSuns();
 
     public void ApplySkillTreeUnlocks(
         bool sunUnlocked,

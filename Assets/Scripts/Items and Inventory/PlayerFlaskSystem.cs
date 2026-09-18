@@ -64,7 +64,7 @@ public class PlayerFlaskSystem : MonoBehaviour
     {
         if (instance != null && instance != this)
         {
-            Destroy(gameObject);
+            Destroy(this);
             return;
         }
 
@@ -176,12 +176,17 @@ public class PlayerFlaskSystem : MonoBehaviour
         if (targetStats == null)
             targetStats = ResolvePlayerStats();
 
-        return targetStats != null && targetStats.currentHealth < targetStats.GetMaxHealthValue();
+        return targetStats != null && !targetStats.isDead && targetStats.currentHealth > 0 &&
+            MainHealPercent > 0f && targetStats.currentHealth < targetStats.GetMaxHealthValue();
     }
 
     public bool CanUseSubFlask(int index)
     {
         if (!IsValidSubIndex(index) || subCooldownTimers[index] > 0f)
+            return false;
+
+        PlayerStats targetStats = ResolvePlayerStats();
+        if (targetStats == null || targetStats.isDead)
             return false;
 
         RefreshSubCounts();
@@ -374,7 +379,7 @@ public class PlayerFlaskSystem : MonoBehaviour
 
     public bool RegisterMainFlaskItem(ItemData item)
     {
-        if (!IsNamedMainFlaskItem(item))
+        if (!IsMainFlaskItem(item))
             return false;
 
         ItemData_Equipment equipment = item as ItemData_Equipment;
@@ -414,8 +419,8 @@ public class PlayerFlaskSystem : MonoBehaviour
 
     private System.Collections.IEnumerator AutoEquipMainFlaskNextFrame()
     {
-        yield return null;
-        yield return null;
+        while (Inventory.instance == null || !Inventory.instance.IsInitialized)
+            yield return null;
         AutoEquipMainFlask();
     }
 

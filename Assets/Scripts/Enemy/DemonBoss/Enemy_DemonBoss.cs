@@ -415,8 +415,9 @@ public class Enemy_DemonBoss : Enemy, IGenericControlImmuneEnemy, IPreciseDodgeT
             UpdateFireBreathDamageWindow(Time.deltaTime);
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         UnlockPlayerForPhaseTransition();
     }
 
