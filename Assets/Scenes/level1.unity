@@ -551237,12 +551237,15 @@ MonoBehaviour:
   chaseMoveSpeed: 9.2
   enableDashChase: 1
   dashCooldown: 5
-  dashSpeed: 16
-  dashDuration: 0.22
-  dashMinDistance: 4
-  dashStopDistance: 2.2
+  dashSpeed: 14
+  dashDuration: 0.4
+  dashMinDistance: 5
+  dashMaxDistance: 10
+  dashVerticalTolerance: 2.5
+  dashStopDistance: 2.5
   dashWindupTime: 0.12
-  dashRecovery: 0.14
+  dashDecelerationTime: 0.14
+  dashRecovery: 0.18
   attackCooldown: 1.15
   attackRecovery: 0.12
   attackStateNames:

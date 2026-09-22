@@ -23,12 +23,17 @@ public class Enemy_ChaosWolfLord : Enemy, IGenericControlImmuneEnemy, IPreciseDo
     [Header("Dash Chase")]
     [SerializeField] private bool enableDashChase = true;
     [SerializeField, Min(0.1f)] private float dashCooldown = 5f;
-    [SerializeField, Min(0.1f)] private float dashSpeed = 16f;
-    [SerializeField, Min(0.05f)] private float dashDuration = 0.22f;
-    [SerializeField, Min(0.1f)] private float dashMinDistance = 4f;
-    [SerializeField, Min(0.1f)] private float dashStopDistance = 2.2f;
+    [SerializeField, Min(0.1f)] private float dashSpeed = 14f;
+    [SerializeField, Min(0.05f)] private float dashDuration = 0.4f;
+    [SerializeField, Min(0.1f)] private float dashMinDistance = 5f;
+    [SerializeField, Min(0.1f)] private float dashMaxDistance = 10f;
+    [SerializeField, Min(0.1f)] private float dashVerticalTolerance = 2.5f;
+    [SerializeField, Min(0.1f)] private float dashStopDistance = 2.5f;
+    [Tooltip("Time spent accelerating from the current run speed; no stationary windup.")]
+    [InspectorName("Dash Acceleration Time")]
     [SerializeField, Min(0f)] private float dashWindupTime = 0.12f;
-    [SerializeField, Min(0f)] private float dashRecovery = 0.14f;
+    [SerializeField, Min(0.02f)] private float dashDecelerationTime = 0.14f;
+    [SerializeField, Min(0f)] private float dashRecovery = 0.18f;
 
     [Header("Combo Attack")]
     [SerializeField, Min(0.05f)] private float attackCooldown = 1.15f;
@@ -346,14 +351,15 @@ public class Enemy_ChaosWolfLord : Enemy, IGenericControlImmuneEnemy, IPreciseDo
 
     private bool CanStartDashChase()
     {
-        if (!enableDashChase || player == null || rb == null)
+        if (!enableDashChase || player == null || rb == null || IsLockedPlayerUnavailable())
             return false;
 
         if (Time.time < lastDashTime + dashCooldown)
             return false;
 
         float distanceToPlayer = GetHorizontalDistanceToPlayer();
-        return distanceToPlayer >= dashMinDistance && distanceToPlayer > GetNextAttackStartDistance();
+        return distanceToPlayer >= dashMinDistance && distanceToPlayer <= Mathf.Max(dashMinDistance, dashMaxDistance) &&
+               distanceToPlayer > GetNextAttackStartDistance() && GetVerticalDistanceToPlayer() <= dashVerticalTolerance;
     }
 
     private void StartDashChase()
@@ -368,16 +374,6 @@ public class Enemy_ChaosWolfLord : Enemy, IGenericControlImmuneEnemy, IPreciseDo
         lastDashTime = Time.time;
         FacePlayer();
 
-        StopBodyMotion();
-
-        if (dashWindupTime > 0f)
-            yield return WaitWhileNotTimeStopped(dashWindupTime);
-
-        if (currentState == WolfState.Dead)
-            yield break;
-
-        FacePlayer();
-
         float directionX = player != null
             ? Mathf.Sign(player.position.x - transform.position.x)
             : facingDir;
@@ -385,11 +381,14 @@ public class Enemy_ChaosWolfLord : Enemy, IGenericControlImmuneEnemy, IPreciseDo
         if (Mathf.Abs(directionX) < 0.01f)
             directionX = facingDir;
 
+        float entrySpeed = rb != null ? Mathf.Max(0f, rb.velocity.x * directionX) : 0f;
+        float duration = Mathf.Max(0.05f, dashDuration);
+        float stopDistance = Mathf.Min(dashStopDistance, GetNextAttackStartDistance());
+        var fixedStep = new WaitForFixedUpdate();
+        float elapsed = 0f;
         PlayStateIfNotCurrent(moveStateName);
 
-        float elapsed = 0f;
-
-        while (elapsed < dashDuration)
+        while (elapsed < duration)
         {
             if (currentState == WolfState.Dead)
                 yield break;
@@ -397,25 +396,55 @@ public class Enemy_ChaosWolfLord : Enemy, IGenericControlImmuneEnemy, IPreciseDo
             if (preciseDodgeTimeStopped)
             {
                 StopBodyMotion();
-                yield return null;
+                yield return fixedStep;
                 continue;
             }
 
-            if (player != null && Vector2.Distance(transform.position, player.position) <= dashStopDistance)
+            if (IsLockedPlayerUnavailable())
                 break;
 
-            SetVelocity(directionX * dashSpeed, rb != null ? rb.velocity.y : 0f);
-            elapsed += Time.deltaTime;
-            yield return null;
+            // Signed horizontal distance also stops the burst if the player crosses
+            // behind us. Jump height must not turn a close approach into overshoot.
+            float distanceAhead = (player.position.x - transform.position.x) * directionX;
+            float remainingDistance = distanceAhead - stopDistance;
+            if (remainingDistance <= 0f)
+                break;
+
+            float step = Time.fixedDeltaTime;
+            float speed = EvaluateDashSpeed(elapsed, entrySpeed, remainingDistance, step);
+            SetVelocity(directionX * speed, rb != null ? rb.velocity.y : 0f);
+            elapsed += step;
+            yield return fixedStep;
         }
 
         StopBodyMotion();
+        PlayStateIfNotCurrent(idleStateName);
 
         if (dashRecovery > 0f)
             yield return WaitWhileNotTimeStopped(dashRecovery);
 
         ChangeState(WolfState.Idle);
         actionRoutine = null;
+    }
+
+    private float EvaluateDashSpeed(float elapsed, float entrySpeed, float remainingDistance, float step)
+    {
+        float duration = Mathf.Max(0.05f, dashDuration);
+        float accelerationTime = Mathf.Clamp(dashWindupTime, 0f, duration * 0.5f);
+        float brakeTime = Mathf.Clamp(dashDecelerationTime, 0.02f, duration - accelerationTime);
+        float peakSpeed = Mathf.Max(0.1f, dashSpeed);
+        float speed = accelerationTime > 0f
+            ? Mathf.SmoothStep(Mathf.Min(entrySpeed, peakSpeed), peakSpeed, elapsed / accelerationTime)
+            : peakSpeed;
+
+        if (elapsed > duration - brakeTime)
+            speed *= 1f - Mathf.SmoothStep(0f, 1f, (elapsed - duration + brakeTime) / brakeTime);
+
+        // Brake earlier for a nearby target, and cap travel to the available gap
+        // so a single physics step cannot cross the intended stopping distance.
+        float gap = Mathf.Max(0f, remainingDistance);
+        float stoppingSpeed = Mathf.Sqrt(2f * (peakSpeed / brakeTime) * gap);
+        return Mathf.Min(speed, stoppingSpeed, gap / Mathf.Max(0.001f, step));
     }
 
     private void DealAttackDamage(int attackIndex, int hitboxIndex, bool allowLegacyFallback)

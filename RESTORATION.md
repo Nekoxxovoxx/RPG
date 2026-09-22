@@ -65,7 +65,7 @@ Fonts and lighting still need visual validation on the target graphics hardware.
 ## Running Checks
 
 Use Unity batch mode with -executeMethod and the method names above.
-For BossRuntimeValidation.Run and LifecycleValidation.Run, omit -quit;
+For BossRuntimeValidation.Run, LifecycleValidation.Run and WolfDashValidation.Run, omit -quit;
 each enters/exits Play mode and exits
 the batch editor itself. Other checks use -quit. Do not run multiple Unity
 processes against this project simultaneously.
@@ -78,6 +78,28 @@ python tools/bake_demon_fire_hitboxes.py --check
 ```
 
 Its diagnostic overlay is written to Logs/CombatValidation/fire-hitboxes.png.
+
+## Wolf Pursuit Burst Trial (2026-09-21)
+
+- Replaced stop/dash/stop movement with acceleration from current forward
+  velocity, timed braking and distance-based braking in physics steps.
+- Level1 tuning: peak 14, motion duration 0.4s, acceleration 0.12s,
+  deceleration 0.14s, recovery 0.18s; cooldown remains 5s.
+- Start at horizontal range 5-10 with vertical difference at most 2.5.
+  Stop at horizontal distance 2.5 (bounded by the next attack's start range).
+  Jumping does not bypass braking; crossing behind ends the burst without a
+  mid-burst turnaround. Recovery retains the Dash state and cannot attack.
+- WolfDashValidation.Run: 449 assertions passed in isolated Play mode using
+  manually stepped Unity 2D physics at 0.01/0.02/0.04s. Covers both directions,
+  braking, cooldown/range, jumping, crossing, target death, time stop and hits.
+- RepairValidation.RunCore, DemonBossCombatValidation.Run,
+  BossSceneValidation.Run and BossRuntimeValidation.Run all passed again.
+- Motion feel and animation appearance still need user playtesting. No new
+  dash animation was added; this trial keeps the existing locomotion asset.
+- This stage changes only wolf pursuit. The separate attack-event timing,
+  looping clips and demon vertical-range findings have not been fixed here.
+- Other uncommitted level1 edits and the preceding skeleton work are retained
+  locally but are not included in this stage's commit.
 
 ## Still To Verify
 
